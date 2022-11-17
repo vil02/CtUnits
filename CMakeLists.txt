@@ -39,6 +39,15 @@ option(ENABLE_CODE_COVERAGE "Generate coverage data" OFF)
 include(cmake/CodeCoverage.cmake)
 enable_code_coverage(project_options)
 
+function(add_regular_executable source_file)
+    get_filename_component(core_name ${source_file} NAME_WLE)
+    add_executable(${core_name} ${source_file})
+    target_link_libraries(${core_name}
+        PRIVATE
+            project_options
+            project_warnings)
+endfunction()
+
 option(ENABLE_BOOST_TESTS "Add boost tests" ON)
 if(ENABLE_BOOST_TESTS)
     find_package(Boost 1.66 REQUIRED)
