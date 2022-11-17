@@ -50,4 +50,4 @@ if(ENABLE_BOOST_TESTS)
 
     add_subdirectory(tests)
 endif()
-#add_subdirectory(examples)
+add_subdirectory(examples)
