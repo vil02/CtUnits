@@ -31,4 +31,4 @@ int main()
     // would lead to a compile-time error
     std::cout<<distance_in_meters.get_value()<<" meters is "<<distance_in_inches.get_value()<<" inches\n";
     return 0;
-};
+}
