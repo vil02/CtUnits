@@ -38,6 +38,9 @@ namespace ctu::ud_operations
     template <typename UnitDimA, typename UnitDimB>
     using IsLess = boost::mp11::mp_bool<is_less<UnitDimA, UnitDimB>()>;
 
+    template <typename MpUnitDim>
+    using GetDimType = boost::mp11::mp_second<MpUnitDim>;
+
     template <typename UnitsDimsA, typename UnitsDimsB>
     class UsedUnits
     {
@@ -58,8 +61,8 @@ namespace ctu::ud_operations
         using add_dims_common = ctu::tcu::UdPair<
             Unit,
             boost::mp11::mp_plus<
-                boost::mp11::mp_second<boost::mp11::mp_map_find<UnitsDimsA, Unit> >,
-                boost::mp11::mp_second<boost::mp11::mp_map_find<UnitsDimsB, Unit> > > >;
+                GetDimType<boost::mp11::mp_map_find<UnitsDimsA, Unit> >,
+                GetDimType<boost::mp11::mp_map_find<UnitsDimsB, Unit> > > >;
 
         using common_unit_dims = boost::mp11::mp_transform<
             add_dims_common, typename used_units::common>;
@@ -74,7 +77,7 @@ namespace ctu::ud_operations
 
         template <typename UnitDimension>
         using dimension_is_not_zero = boost::mp11::mp_bool<
-            !std::is_same_v<boost::mp11::mp_second<UnitDimension>, ctu::tcu::Dim<0> > >;
+            !std::is_same_v<GetDimType<UnitDimension>, ctu::tcu::Dim<0> > >;
 
         using result_not_sorted = boost::mp11::mp_copy_if<
             boost::mp11::mp_append<common_unit_dims, only_a_dims, only_b_dims>,
@@ -87,7 +90,7 @@ namespace ctu::ud_operations
     template <typename MpUnitDimension>
     using MinusDim = ctu::tcu::UdPair<
         boost::mp11::mp_first<MpUnitDimension>,
-        ::ctu::tcu::Dim<-boost::mp11::mp_second<MpUnitDimension>::value > >;
+        ::ctu::tcu::Dim<-GetDimType<MpUnitDimension>::value > >;
 
     template <typename MpUnitsDims>
     using MinusDims = boost::mp11::mp_transform<MinusDim, MpUnitsDims>;
