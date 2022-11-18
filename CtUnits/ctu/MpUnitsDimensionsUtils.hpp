@@ -12,7 +12,7 @@ using namespace boost::mp11;
 using namespace boost::typeindex;
 
 template <typename Map, typename Keys>
-class FilterMap
+class GetRows
 {
     template <typename Key>
     using get_row = mp_map_find<Map, Key>;
@@ -21,10 +21,16 @@ public:
     using result = mp_transform<get_row, Keys>;
 };
 
+template <typename UnitDim>
+constexpr auto GetUnitId()
+{
+    return ctti_type_index::type_id_with_cvr<mp_first<UnitDim> >();
+}
+
 template <typename UnitDimA, typename UnitDimB>
 constexpr bool is_less()
 {
-    return ctti_type_index::type_id_with_cvr<mp_first<UnitDimA> >() < ctti_type_index::type_id_with_cvr<mp_first<UnitDimB> >();
+    return GetUnitId<UnitDimA>() < GetUnitId<UnitDimB>();
 }
 
 template <typename UnitDimA, typename UnitDimB>
@@ -55,11 +61,11 @@ struct AddUnitsDims
 
     using common_unit_dims = mp_transform<add_dims_common, typename used_units::common>;
 
-    using only_a_dims = typename FilterMap<
+    using only_a_dims = typename GetRows<
         UnitsDimsA,
         typename used_units::only_a>::result;
 
-    using only_b_dims = typename FilterMap<
+    using only_b_dims = typename GetRows<
         UnitsDimsB,
         typename used_units::only_b>::result;
 
@@ -75,12 +81,12 @@ struct AddUnitsDims
 };
 
 template <typename MpUnitDimension>
-using minus_dim = ctu::tcu::UdPair<
+using MinusDim = ctu::tcu::UdPair<
     mp_first<MpUnitDimension>,
     ctu::tcu::Dim<-mp_second<MpUnitDimension>::value > >;
 
 template <typename MpUnitsDimensions>
-using minus_dims = mp_transform<minus_dim, MpUnitsDimensions>;
+using MinusDims = mp_transform<MinusDim, MpUnitsDimensions>;
 
 namespace ctu::mp_units_dimensions_utils
 {
@@ -88,7 +94,7 @@ namespace ctu::mp_units_dimensions_utils
     using add_mp_units_dims = typename AddUnitsDims<MpUnitsDimensionsA, MpUnitsDimensionsB>::result;
 
     template <typename MpUnitsDimensionsA, typename MpUnitsDimensionsB>
-    using substract_mp_units_dims = add_mp_units_dims<MpUnitsDimensionsA, minus_dims<MpUnitsDimensionsB> >;
+    using substract_mp_units_dims = add_mp_units_dims<MpUnitsDimensionsA, MinusDims<MpUnitsDimensionsB> >;
 
     template <template<typename, typename> typename F, typename UnitsDimensionsA, typename UnitsDimensionsB>
     using convert_and_transform = ::ctu::tcu::MpListToUdList<
