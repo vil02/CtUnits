@@ -47,7 +47,7 @@ struct AddUnitsDims
 {
     using used_units = UsedUnits<UnitsDimsA, UnitsDimsB>;
     template <typename Unit>
-    using add_dims_common = ctu::tcu::ud_pair<
+    using add_dims_common = ctu::tcu::UdPair<
         Unit,
         mp_plus<
             mp_second<mp_map_find<UnitsDimsA, Unit> >,
@@ -64,7 +64,7 @@ struct AddUnitsDims
         typename used_units::only_b>::result;
 
     template <typename UnitDimension>
-    using dimension_is_not_zero = mp_bool<!std::is_same<mp_second<UnitDimension>, ctu::tcu::dim_t<0> >::value>;
+    using dimension_is_not_zero = mp_bool<!std::is_same<mp_second<UnitDimension>, ctu::tcu::Dim<0> >::value>;
 
     using result_b = mp_copy_if<
         mp_append<common_unit_dims, only_a_dims, only_b_dims>,
@@ -75,9 +75,9 @@ struct AddUnitsDims
 };
 
 template <typename MpUnitDimension>
-using minus_dim = ctu::tcu::ud_pair<
+using minus_dim = ctu::tcu::UdPair<
     mp_first<MpUnitDimension>,
-    ctu::tcu::dim_t<-mp_second<MpUnitDimension>::value > >;
+    ctu::tcu::Dim<-mp_second<MpUnitDimension>::value > >;
 
 template <typename MpUnitsDimensions>
 using minus_dims = mp_transform<minus_dim, MpUnitsDimensions>;
@@ -91,9 +91,9 @@ namespace ctu::mp_units_dimensions_utils
     using substract_mp_units_dims = add_mp_units_dims<MpUnitsDimensionsA, minus_dims<MpUnitsDimensionsB> >;
 
     template <template<typename, typename> typename F, typename UnitsDimensionsA, typename UnitsDimensionsB>
-    using convert_and_transform = ::ctu::tcu::mp_list_to_units_dimensions<
-        F<::ctu::tcu::units_dimensions_to_mp_list<UnitsDimensionsA>,
-          ::ctu::tcu::units_dimensions_to_mp_list<UnitsDimensionsB> > >;
+    using convert_and_transform = ::ctu::tcu::MpListToUdList<
+        F<::ctu::tcu::UdListToMpList<UnitsDimensionsA>,
+          ::ctu::tcu::UdListToMpList<UnitsDimensionsB> > >;
 
     template <typename UnitsDimensionsA, typename UnitsDimensionB>
     using add_units_dims = convert_and_transform<add_mp_units_dims, UnitsDimensionsA, UnitsDimensionB>;

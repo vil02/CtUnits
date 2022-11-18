@@ -15,7 +15,7 @@ namespace ctu
     class [[nodiscard]] Quantity
     {
         static_assert(
-            boost::mp11::mp_is_map<tcu::units_dimensions_to_mp_list<UnitsDimensions> >::value);
+            boost::mp11::mp_is_map<tcu::UdListToMpList<UnitsDimensions> >::value);
 
     public:
         using value_type = F;

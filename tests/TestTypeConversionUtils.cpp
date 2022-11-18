@@ -6,46 +6,46 @@
 #include <boost/static_assert.hpp>
 #include <type_traits>
 
-BOOST_AUTO_TEST_CASE(test_unit_dimension_to_ud_pair)
+BOOST_AUTO_TEST_CASE(TestUnitDimensionToUdPair)
 {
     using input = ctu::UnitDimension<int, 3>;
-    using expected_output = ctu::tcu::ud_pair<int, ctu::tcu::dim_t<3> >;
-    using actual = ctu::tcu::unit_dimension_to_ud_pair<input>;
+    using expected_output = ctu::tcu::UdPair<int, ctu::tcu::Dim<3> >;
+    using actual = ctu::tcu::UnitDimensionToUdPair<input>;
     BOOST_STATIC_ASSERT(std::is_same_v<actual, expected_output>);
 }
 
-BOOST_AUTO_TEST_CASE(test_ud_pair_to_unit_dimension)
+BOOST_AUTO_TEST_CASE(TestUdPairToUnitDimension)
 {
-    using input = ctu::tcu::ud_pair<char, ctu::tcu::dim_t<10> >;
+    using input = ctu::tcu::UdPair<char, ctu::tcu::Dim<10> >;
     using expected_output = ctu::UnitDimension<char, 10>;
-    using actual = ctu::tcu::ud_pair_to_unit_dimension<input>;
+    using actual = ctu::tcu::UdPairToUnitDimension<input>;
     BOOST_STATIC_ASSERT(std::is_same_v<actual, expected_output>);
 }
 
-BOOST_AUTO_TEST_CASE(test_units_dimensions_to_mp_list)
+BOOST_AUTO_TEST_CASE(TestUdListToMpList)
 {
     using input = ctu::UdList<
         ctu::UnitDimension<int, 1>,
         ctu::UnitDimension<bool, 20>,
         ctu::UnitDimension<char, 3> >;
     using expected_output = ctu::UdList<
-        ctu::tcu::ud_pair<int, ctu::tcu::dim_t<1> >,
-        ctu::tcu::ud_pair<bool, ctu::tcu::dim_t<20> >,
-        ctu::tcu::ud_pair<char, ctu::tcu::dim_t<3> > >;
-    using actual = ctu::tcu::units_dimensions_to_mp_list<input>;
+        ctu::tcu::UdPair<int, ctu::tcu::Dim<1> >,
+        ctu::tcu::UdPair<bool, ctu::tcu::Dim<20> >,
+        ctu::tcu::UdPair<char, ctu::tcu::Dim<3> > >;
+    using actual = ctu::tcu::UdListToMpList<input>;
     BOOST_STATIC_ASSERT(std::is_same_v<actual, expected_output>);
   }
 
-BOOST_AUTO_TEST_CASE(test_mp_list_to_units_dimensions)
+BOOST_AUTO_TEST_CASE(TestMpListToUdList)
 {
   using input = ctu::UdList<
-      ctu::tcu::ud_pair<bool, ctu::tcu::dim_t<10> >,
-      ctu::tcu::ud_pair<double, ctu::tcu::dim_t<-20> >,
-      ctu::tcu::ud_pair<char, ctu::tcu::dim_t<-300> > >;
+      ctu::tcu::UdPair<bool, ctu::tcu::Dim<10> >,
+      ctu::tcu::UdPair<double, ctu::tcu::Dim<-20> >,
+      ctu::tcu::UdPair<char, ctu::tcu::Dim<-300> > >;
     using expected_output = ctu::UdList<
         ctu::UnitDimension<bool, 10>,
         ctu::UnitDimension<double, -20>,
         ctu::UnitDimension<char, -300> >;
-    using actual = ctu::tcu::mp_list_to_units_dimensions<input>;
+    using actual = ctu::tcu::MpListToUdList<input>;
     BOOST_STATIC_ASSERT(std::is_same_v<actual, expected_output>);
 }
