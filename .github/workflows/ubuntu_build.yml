@@ -19,10 +19,13 @@ jobs:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04]
         compiler:
-          - g++-9
+          - g++-10
           - g++-11
           - clang++-10
           - clang++-12
+        exclude:
+          - os: ubuntu-22.04
+            compiler: clang++-10
         build_type: [Release, Debug]
 
     steps:
