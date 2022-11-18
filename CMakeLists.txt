@@ -48,15 +48,16 @@ function(add_regular_executable source_file)
             project_warnings)
 endfunction()
 
+find_package(Boost 1.66 REQUIRED)
+if(NOT Boost_FOUND)
+    message(
+        FATAL_ERROR "Fatal error: Boost (version >= 1.66.0) required.\n")
+endif()
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+
 option(ENABLE_BOOST_TESTS "Add boost tests" ON)
 if(ENABLE_BOOST_TESTS)
-    find_package(Boost 1.66 REQUIRED)
-    if(NOT Boost_FOUND)
-        message(
-            FATAL_ERROR "Fatal error: Boost (version >= 1.66.0) required.\n")
-    endif()
-    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
     add_subdirectory(tests)
 endif()
+
 add_subdirectory(examples)
