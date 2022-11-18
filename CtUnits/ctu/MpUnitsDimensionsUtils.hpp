@@ -27,7 +27,7 @@ template <typename UnitDimA, typename UnitDimB>
 constexpr bool is_less()
 {
     return ctti_type_index::type_id_with_cvr<mp_first<UnitDimA> >() < ctti_type_index::type_id_with_cvr<mp_first<UnitDimB> >();
-};
+}
 
 template <typename UnitDimA, typename UnitDimB>
 using IsLess = mp_bool<is_less<UnitDimA, UnitDimB>()>;
