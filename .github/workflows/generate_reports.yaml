@@ -8,7 +8,7 @@ on:
 env:
   cpp_scripts_path: ${{github.workspace}}/cpp/scripts
   gxx: g++-10
-  clangxx: clang++-10
+  clangxx: clang++-11
 
 jobs:
   generate_reports:
