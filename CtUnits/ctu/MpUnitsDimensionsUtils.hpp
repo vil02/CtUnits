@@ -20,10 +20,16 @@ namespace ctu::ud_operations
         using result = boost::mp11::mp_transform<get_row, Keys>;
     };
 
-    template <typename UnitDim>
+    template <typename MpUnitDim>
+    using GetUnit = boost::mp11::mp_first<MpUnitDim>;
+
+    template <typename MpUnitDim>
+    using GetDimType = boost::mp11::mp_second<MpUnitDim>;
+
+    template <typename MpUnitDim>
     constexpr auto GetUnitId()
     {
-        return boost::typeindex::ctti_type_index::type_id_with_cvr<boost::mp11::mp_first<UnitDim> >();
+        return boost::typeindex::ctti_type_index::type_id_with_cvr<GetUnit<MpUnitDim> >();
     }
 
     template <typename UnitDimA, typename UnitDimB>
@@ -37,9 +43,6 @@ namespace ctu::ud_operations
 
     template <typename UnitDimA, typename UnitDimB>
     using IsLess = boost::mp11::mp_bool<is_less<UnitDimA, UnitDimB>()>;
-
-    template <typename MpUnitDim>
-    using GetDimType = boost::mp11::mp_second<MpUnitDim>;
 
     template <typename UnitsDimsA, typename UnitsDimsB>
     class UsedUnits
@@ -89,7 +92,7 @@ namespace ctu::ud_operations
 
     template <typename MpUnitDimension>
     using MinusDim = ctu::tcu::UdPair<
-        boost::mp11::mp_first<MpUnitDimension>,
+        GetUnit<MpUnitDimension>,
         ::ctu::tcu::Dim<-GetDimType<MpUnitDimension>::value > >;
 
     template <typename MpUnitsDims>
