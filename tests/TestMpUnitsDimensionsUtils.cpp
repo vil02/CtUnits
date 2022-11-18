@@ -36,3 +36,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(TestIsLessNegative, IsLessInput, IsLessInputs)
       BOOST_STATIC_ASSERT(
           !IsLess<typename IsLessInput::input_b, typename IsLessInput::input_a>());
 }
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(TestIsLessFunctionPositive, IsLessInput, IsLessInputs)
+{
+      const bool result = is_less<typename IsLessInput::input_a, typename IsLessInput::input_b>();
+      BOOST_CHECK(result);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(TestIsLessFunctionNegative, IsLessInput, IsLessInputs)
+{
+  const bool result = !is_less<typename IsLessInput::input_b, typename IsLessInput::input_a>();
+  BOOST_CHECK(result);
+}
