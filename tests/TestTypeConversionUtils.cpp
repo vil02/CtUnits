@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE TestTypeConversionUtils
 
 #include "../CtUnits/ctu/TypeConversionUtils.hpp"
-#include "../CtUnits/ctu/ud_list.hpp"
+#include "../CtUnits/ctu/UdList.hpp"
 #include <boost/test/included/unit_test.hpp>
 #include <boost/static_assert.hpp>
 #include <type_traits>
@@ -24,11 +24,11 @@ BOOST_AUTO_TEST_CASE(test_ud_pair_to_unit_dimension)
 
 BOOST_AUTO_TEST_CASE(test_units_dimensions_to_mp_list)
 {
-    using input = ctu::ud_list<
+    using input = ctu::UdList<
         ctu::UnitDimension<int, 1>,
         ctu::UnitDimension<bool, 20>,
         ctu::UnitDimension<char, 3> >;
-    using expected_output = ctu::ud_list<
+    using expected_output = ctu::UdList<
         ctu::tcu::ud_pair<int, ctu::tcu::dim_t<1> >,
         ctu::tcu::ud_pair<bool, ctu::tcu::dim_t<20> >,
         ctu::tcu::ud_pair<char, ctu::tcu::dim_t<3> > >;
@@ -38,11 +38,11 @@ BOOST_AUTO_TEST_CASE(test_units_dimensions_to_mp_list)
 
 BOOST_AUTO_TEST_CASE(test_mp_list_to_units_dimensions)
 {
-  using input = ctu::ud_list<
+  using input = ctu::UdList<
       ctu::tcu::ud_pair<bool, ctu::tcu::dim_t<10> >,
       ctu::tcu::ud_pair<double, ctu::tcu::dim_t<-20> >,
       ctu::tcu::ud_pair<char, ctu::tcu::dim_t<-300> > >;
-    using expected_output = ctu::ud_list<
+    using expected_output = ctu::UdList<
         ctu::UnitDimension<bool, 10>,
         ctu::UnitDimension<double, -20>,
         ctu::UnitDimension<char, -300> >;
