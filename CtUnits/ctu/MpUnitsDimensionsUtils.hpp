@@ -73,7 +73,7 @@ struct AddUnitsDims
         typename used_units::only_b>::result;
 
     template <typename UnitDimension>
-    using dimension_is_not_zero = mp_bool<!std::is_same<mp_second<UnitDimension>, ctu::tcu::Dim<0> >::value>;
+    using dimension_is_not_zero = mp_bool<!std::is_same_v<mp_second<UnitDimension>, ctu::tcu::Dim<0> > >;
 
     using result_b = mp_copy_if<
         mp_append<common_unit_dims, only_a_dims, only_b_dims>,
