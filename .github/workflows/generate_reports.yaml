@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  cpp_scripts_path: ${{github.workspace}}/cpp/scripts
+  scripts_path: ${{github.workspace}}/scripts
   gxx: g++-10
   clangxx: clang++-11
 
@@ -55,8 +55,8 @@ jobs:
           ${{env.clangxx}} --version
           llvm-cov --version
 
-      - name: Generate coverage reports (cpp)
-        working-directory: ${{env.cpp_scripts_path}}
+      - name: Generate coverage reports
+        working-directory: ${{env.scripts_path}}
         run: |
           ./generate_raw_coverage_data_gxx.sh
           ./run_gcovr_html.sh
@@ -68,7 +68,7 @@ jobs:
       - name: Upload generated reports
         uses: actions/upload-artifact@v3
         with:
-          name: reports
-          path: reports
+          name: coverage_reports
+          path: coverage_reports
           if-no-files-found: error
           retention-days: 5
