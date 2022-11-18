@@ -14,8 +14,9 @@ namespace ctu
     template <typename F, typename UnitsDimensions>
     class [[nodiscard]] Quantity
     {
-    //static_assert(
-    //    boost::mp11::mp_is_map<quantity_related::to_mp_list<UnitsDimensions...> >::value);
+        static_assert(
+            boost::mp11::mp_is_map<tcu::units_dimensions_to_mp_list<UnitsDimensions> >::value);
+
     public:
         using value_type = F;
 
