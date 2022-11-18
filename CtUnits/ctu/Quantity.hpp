@@ -4,7 +4,7 @@
 #include <boost/mp11.hpp>
 
 #include "UnitDimension.hpp"
-#include "./MpUnitsDimensionsUtils.hpp"
+#include "MpUnitsDimensionsUtils.hpp"
 
 #include "ud_list.hpp"
 
