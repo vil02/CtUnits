@@ -49,7 +49,7 @@ struct AddUnitsDims
 {
     using used_units = UsedUnits<UnitsDimsA, UnitsDimsB>;
     template <typename Unit>
-    using add_dims_common = mp_list<
+    using add_dims_common = ctu::tcu::ud_pair<
         Unit,
         mp_plus<
             mp_second<mp_map_find<UnitsDimsA, Unit> >,
@@ -77,7 +77,7 @@ struct AddUnitsDims
 };
 
 template <typename MpUnitDimension>
-using minus_dim = mp_list<
+using minus_dim = ctu::tcu::ud_pair<
     mp_first<MpUnitDimension>,
     mp_int<-mp_second<MpUnitDimension>::value > >;
 
