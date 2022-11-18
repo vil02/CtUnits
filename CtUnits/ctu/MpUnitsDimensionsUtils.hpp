@@ -4,8 +4,6 @@
 #include "TypeConversionUtils.hpp"
 
 #include <boost/mp11.hpp>
-#include <boost/mp11/integral.hpp>
-#include <boost/type_index.hpp>
 #include <boost/type_index/ctti_type_index.hpp>
 
 #include <type_traits>
