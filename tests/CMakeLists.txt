@@ -5,6 +5,6 @@ function(add_regular_test test_source)
 endfunction()
 
 file(GLOB test_sources *.cpp)
-foreach (test_source ${test_sources})
+foreach(test_source ${test_sources})
     add_regular_test(${test_source})
 endforeach()
