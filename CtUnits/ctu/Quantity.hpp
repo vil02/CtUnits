@@ -49,7 +49,7 @@ namespace ctu
         [[nodiscard]] constexpr auto operator*(
                const Quantity<F, OtherUnitsDimensions>& other) const
         {
-           using result_units_dims = mp_units_dimensions_utils::AddUdLists<
+           using result_units_dims = ctu::ud_operations::AddUdLists<
                UnitsDimensions, OtherUnitsDimensions>;
            using result_type = Quantity<F, result_units_dims>;
            return result_type(this->get_value()*other.get_value());
@@ -59,7 +59,7 @@ namespace ctu
         [[nodiscard]] constexpr auto operator/(
                const Quantity<F, OtherUnitsDimensions>& other) const
         {
-           using result_units_dims = mp_units_dimensions_utils::SubstractUdLists<
+           using result_units_dims = ctu::ud_operations::SubstractUdLists<
                UnitsDimensions, OtherUnitsDimensions>;
            using result_type = Quantity<F, result_units_dims>;
            return result_type(this->get_value()/other.get_value());
