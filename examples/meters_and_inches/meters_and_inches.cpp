@@ -1,6 +1,5 @@
 #include <iostream>
 #include <type_traits>
-#include <boost/mp11.hpp>
 #include "../../CtUnits/CtUnits.hpp"
 
 int main()
@@ -11,15 +10,15 @@ int main()
     using value_type = double;
     using DistanceInMeters = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<ctu::UnitDimension<Meter, 1> > >;
+        ctu::ud_list<ctu::UnitDimension<Meter, 1> > >;
 
     using DistanceInInches = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<ctu::UnitDimension<Inch, 1> > >;
+        ctu::ud_list<ctu::UnitDimension<Inch, 1> > >;
 
     const auto meter_to_inch = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<Inch, -1>,
             ctu::UnitDimension<Meter, 1> > >(0.0254);
 

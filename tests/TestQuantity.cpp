@@ -12,7 +12,7 @@ BOOST_AUTO_TEST_CASE(test_get_value)
     const int some_value = 10;
     using quantity_type = ctu::Quantity<
         std::remove_const_t<decltype(some_value)>,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, 1>,
             ctu::UnitDimension<char, -3> > >;
     const auto example_quantity = quantity_type(some_value);
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(test_add)
     const value_type value_b = 10;
     using quantity_type = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<char, -4>,
             ctu::UnitDimension<int, 4> > >;
     const auto quantity_a = quantity_type(value_a);
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(test_substract)
     const value_type value_b = -5;
     using quantity_type = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, -2>,
             ctu::UnitDimension<long double, 3> > >;
     const auto quantity_a = quantity_type(value_a);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(test_multiply)
     const value_type value_a = 4;
     using quantity_type_a = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, -2>,
             ctu::UnitDimension<char, 4>,
             ctu::UnitDimension<long double, 3> > >;
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(test_multiply)
     const value_type value_b = 3;
     using quantity_type_b = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, 3>,
             ctu::UnitDimension<char, -4>,
             ctu::UnitDimension<double, 1>,
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(test_multiply)
 
     using expected_result_type = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, 1>,
             ctu::UnitDimension<double, 1>,
             ctu::UnitDimension<int, 10>,
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(test_divide)
     const value_type value_a = 12;
     using quantity_type_a = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, -2>,
             ctu::UnitDimension<char, 4>,
             ctu::UnitDimension<long double, 3> > >;
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(test_divide)
     const value_type value_b = 3;
     using quantity_type_b = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, 3>,
             ctu::UnitDimension<char, -4>,
             ctu::UnitDimension<double, 1>,
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(test_divide)
 
     using expected_result_type = ctu::Quantity<
         value_type,
-        boost::mp11::mp_list<
+        ctu::ud_list<
             ctu::UnitDimension<bool, -5>,
             ctu::UnitDimension<char, 8>,
             ctu::UnitDimension<double, -1>,
@@ -135,7 +135,7 @@ using value_types = boost::mp11::mp_list<std::int8_t, std::int16_t, std::int32_t
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(has_same_size_as_value_type, value_type, value_types)
 {
-      using units_dimensions = boost::mp11::mp_list<
+      using units_dimensions = ctu::ud_list<
           ctu::UnitDimension<bool, -1>,
           ctu::UnitDimension<char, 2>,
           ctu::UnitDimension<double, 3>,
