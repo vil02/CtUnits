@@ -32,23 +32,23 @@ namespace ctu::ud_operations
         return boost::typeindex::ctti_type_index::type_id_with_cvr<GetUnit<MpUnitDim> >();
     }
 
-    template <typename UnitDimA, typename UnitDimB>
+    template <typename MpUnitDimA, typename MpUnitDimB>
     constexpr bool is_less()
     {
-        constexpr auto id_a = GetUnitId<UnitDimA>();
-        constexpr auto id_b = GetUnitId<UnitDimB>();
+        constexpr auto id_a = GetUnitId<MpUnitDimA>();
+        constexpr auto id_b = GetUnitId<MpUnitDimB>();
         static_assert(id_a != id_b);
         return id_a < id_b;
     }
 
-    template <typename UnitDimA, typename UnitDimB>
-    using IsLess = boost::mp11::mp_bool<is_less<UnitDimA, UnitDimB>()>;
+    template <typename MpUnitDimA, typename MpUnitDimB>
+    using IsLess = boost::mp11::mp_bool<is_less<MpUnitDimA, MpUnitDimB>()>;
 
-    template <typename UnitsDimsA, typename UnitsDimsB>
+    template <typename MpUnitsDimsA, typename MpUnitsDimsB>
     class UsedUnits
     {
-        using units_a = boost::mp11::mp_map_keys<UnitsDimsA>;
-        using units_b = boost::mp11::mp_map_keys<UnitsDimsB>;
+        using units_a = boost::mp11::mp_map_keys<MpUnitsDimsA>;
+        using units_b = boost::mp11::mp_map_keys<MpUnitsDimsB>;
 
     public:
         using common = boost::mp11::mp_set_intersection<units_a, units_b>;
@@ -56,26 +56,26 @@ namespace ctu::ud_operations
         using only_b = boost::mp11::mp_set_difference<units_b, units_a>;
     };
 
-    template <typename UnitsDimsA, typename UnitsDimsB>
+    template <typename MpUnitsDimsA, typename MpUnitsDimsB>
     class UnitsDimsAdder
     {
-        using used_units = UsedUnits<UnitsDimsA, UnitsDimsB>;
+        using used_units = UsedUnits<MpUnitsDimsA, MpUnitsDimsB>;
         template <typename Unit>
         using add_dims_common = ctu::tcu::UdPair<
             Unit,
             boost::mp11::mp_plus<
-                GetDimType<boost::mp11::mp_map_find<UnitsDimsA, Unit> >,
-                GetDimType<boost::mp11::mp_map_find<UnitsDimsB, Unit> > > >;
+                GetDimType<boost::mp11::mp_map_find<MpUnitsDimsA, Unit> >,
+                GetDimType<boost::mp11::mp_map_find<MpUnitsDimsB, Unit> > > >;
 
         using common_unit_dims = boost::mp11::mp_transform<
             add_dims_common, typename used_units::common>;
 
         using only_a_dims = typename GetRows<
-            UnitsDimsA,
+            MpUnitsDimsA,
             typename used_units::only_a>::result;
 
         using only_b_dims = typename GetRows<
-            UnitsDimsB,
+            MpUnitsDimsB,
             typename used_units::only_b>::result;
 
         template <typename UnitDimension>
