@@ -104,8 +104,8 @@ namespace ctu::mp_units_dimensions_utils
         F<::ctu::tcu::UdListToMpList<UnitsDimensionsA>,
           ::ctu::tcu::UdListToMpList<UnitsDimensionsB> > >;
 
-    template <typename UnitsDimensionsA, typename UnitsDimensionB>
-    using add_units_dims = convert_and_transform<add_mp_units_dims, UnitsDimensionsA, UnitsDimensionB>;
+    template <typename UdListA, typename UdListB>
+    using AddUdLists = convert_and_transform<add_mp_units_dims, UdListA, UdListB>;
 
     template <typename UnitsDimensionsA, typename UnitsDimensionB>
     using substract_units_dims = convert_and_transform<substract_mp_units_dims, UnitsDimensionsA, UnitsDimensionB>;
