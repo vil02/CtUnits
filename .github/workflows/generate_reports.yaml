@@ -1,0 +1,74 @@
+---
+name: generate_reports
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+
+env:
+  cpp_scripts_path: ${{github.workspace}}/cpp/scripts
+  gxx: g++-10
+  clangxx: clang++-10
+
+jobs:
+  generate_reports:
+    name: Generate reports
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install libboost-all-dev
+
+      - name: Install compilers
+        run: |
+          sudo apt-get install ${{env.gxx}}
+          sudo apt-get install ${{env.clangxx}}
+
+      - name: Install lcov
+        run: |
+          sudo apt-get install lcov
+
+      - name: Install llvm
+        run: |
+          sudo apt-get install llvm
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      - name: Install gcovr
+        run: |
+          python -m pip install --upgrade pip
+          sudo pip install gcovr
+
+      - name: Show versions
+        run: |
+          ${{env.gxx}} --version
+          gcov --version
+          lcov --version
+          ${{env.clangxx}} --version
+          llvm-cov --version
+
+      - name: Generate coverage reports (cpp)
+        working-directory: ${{env.cpp_scripts_path}}
+        run: |
+          ./generate_raw_coverage_data_gxx.sh
+          ./run_gcovr_html.sh
+          ./run_gcovr_sonarqube.sh
+          ./run_lcov_and_genhtml.sh
+          ./generate_raw_coverage_data_clangxx.sh
+          ./run_llvm-cov.sh
+
+      - name: Upload generated reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: reports
+          if-no-files-found: error
+          retention-days: 5
