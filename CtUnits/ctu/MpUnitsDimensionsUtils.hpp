@@ -66,11 +66,11 @@ struct AddUnitsDims
         typename used_units::only_b>::result;
 
     template <typename UnitDimension>
-    using dimension_is_not_zero = mp_bool<!std::is_same<mp_second<UnitDimension>, mp_int<0> >::value>;
+    using dimension_is_not_zero = mp_bool<!std::is_same<mp_second<UnitDimension>, ctu::tcu::dim_t<0> >::value>;
 
     using result_b = mp_copy_if<
         mp_append<common_unit_dims, only_a_dims, only_b_dims>,
-        dimension_is_not_zero >;
+        dimension_is_not_zero>;
 
     using result = mp_sort<result_b, IsLess>;
     static_assert(mp_is_map<result>::value);
@@ -79,7 +79,7 @@ struct AddUnitsDims
 template <typename MpUnitDimension>
 using minus_dim = ctu::tcu::ud_pair<
     mp_first<MpUnitDimension>,
-    mp_int<-mp_second<MpUnitDimension>::value > >;
+    ctu::tcu::dim_t<-mp_second<MpUnitDimension>::value > >;
 
 template <typename MpUnitsDimensions>
 using minus_dims = mp_transform<minus_dim, MpUnitsDimensions>;
