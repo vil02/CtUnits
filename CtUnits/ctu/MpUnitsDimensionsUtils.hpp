@@ -30,7 +30,10 @@ constexpr auto GetUnitId()
 template <typename UnitDimA, typename UnitDimB>
 constexpr bool is_less()
 {
-    return GetUnitId<UnitDimA>() < GetUnitId<UnitDimB>();
+    constexpr auto id_a = GetUnitId<UnitDimA>();
+    constexpr auto id_b = GetUnitId<UnitDimB>();
+    static_assert(id_a != id_b);
+    return id_a < id_b;
 }
 
 template <typename UnitDimA, typename UnitDimB>
