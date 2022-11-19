@@ -102,10 +102,13 @@ jobs:
           --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
         # yamllint enable rule:line-length
 
+      - name: Copy the coverage report to the root
+        run: cp ./coverage_reports/cobertura_coverage_report.xml .
+
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
           verbose: true
-          files: coverage_reports/cobertura_coverage_report.xml
+          files: cobertura_coverage_report.xml
 ...
