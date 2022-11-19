@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
-        compiler: [g++-12]
+        compiler: [clang++-12]
         clang_tidy: [clang-tidy]
         build_type: [Release, Debug]
 
