@@ -61,6 +61,7 @@ jobs:
           ./generate_raw_coverage_data_gxx.sh
           ./run_gcovr_html.sh
           ./run_gcovr_sonarqube.sh
+          ./run_gcovr_cobertura.sh
           ./run_lcov_and_genhtml.sh
           # ./generate_raw_coverage_data_clangxx.sh
           # ./run_llvm-cov.sh

@@ -1,15 +1,16 @@
 ---
-name: sonar_cloud_check
+name: third_party_checks
 
 # yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
-  sonarcloud:
+  third_party_checks:
     name: Build (sonarCloud)
     runs-on: ubuntu-latest
     env:
@@ -22,6 +23,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Validate codecov.yml file
+        run: |
+          ./validate_codecov_yml.sh
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -85,7 +90,7 @@ jobs:
           cd scripts
           ./generate_raw_coverage_data_gxx.sh
           ./run_gcovr_sonarqube.sh
-          ./run_gcovr_xml.sh
+          ./run_gcovr_cobertura.sh
 
       - name: Run sonar-scanner
         env:
@@ -98,12 +103,12 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Copy the coverage report to the root
-        run: cp ./coverage_reports/xml_coverage_report.xml .
+        run: cp ./coverage_reports/cobertura_coverage_report.xml .
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
           verbose: true
-          files: xml_coverage_report.xml
+          files: cobertura_coverage_report.xml
 ...

@@ -4,6 +4,9 @@ name: check_shell_scripts
 # yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
   pull_request:
 
 jobs:
