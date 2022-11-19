@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-script_lock="gcovr_xml_lock"
+script_lock="gcovr_cobertura_lock"
 readonly script_lock
 
 if ./is_already_running.sh "$script_lock"
@@ -24,7 +24,7 @@ mkdir -p "$output_dir" ||
     exit 1
 }
 
-output_xml_path="$output_dir"/xml_coverage_report.xml ||
+output_xml_path="$output_dir"/cobertura_coverage_report.xml ||
 {
     ./remove_lock.sh "$script_lock"
     printf "Error while getting the output path.\n"

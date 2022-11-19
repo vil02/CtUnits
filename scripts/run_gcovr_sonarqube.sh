@@ -24,7 +24,7 @@ mkdir -p "$output_dir" ||
     exit 1
 }
 
-output_xml_path="$output_dir"/coverage_report.xml ||
+output_xml_path="$output_dir"/sonarqube_coverage_report.xml ||
 {
     ./remove_lock.sh "$script_lock"
     printf "Error while getting the output path.\n"
