@@ -5,7 +5,6 @@
 
 namespace ctu
 {
-    template <typename... T>
-    using UdList = boost::mp11::mp_list<T...>;
+template <typename... T> using UdList = boost::mp11::mp_list<T...>;
 }
 #endif // UDLIST_HPP_INCLUDED
