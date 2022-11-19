@@ -13,7 +13,6 @@ template <typename... T> class GetUdMap
   public:
     using result = boost::mp11::mp_list<T...>;
 
-  private:
     static_assert(ud_operations::IsValidMpUnitsDims<
                   ::ctu::tcu::UdMapToMpList<result>>::value);
 };
