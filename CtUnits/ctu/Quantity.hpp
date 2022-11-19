@@ -1,8 +1,6 @@
 #ifndef QUANTITY_HPP_INCLUDED
 #define QUANTITY_HPP_INCLUDED
 
-#include <boost/mp11.hpp>
-
 #include "MpUnitsDimensionsUtils.hpp"
 #include "UnitDimension.hpp"
 
@@ -12,8 +10,8 @@ namespace ctu
 {
 template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
 {
-    static_assert(
-        boost::mp11::mp_is_map<tcu::UdMapToMpList<UnitsDimensions>>::value);
+    static_assert(ud_operations::IsValidMpUnitsDims<
+                  tcu::UdMapToMpList<UnitsDimensions>>::value);
 
   public:
     using value_type = F;
