@@ -64,7 +64,6 @@ namespace ctu
            using result_type = Quantity<F, result_units_dims>;
            return result_type(this->get_value()/other.get_value());
         }
-
     };
 }
 #endif // QUANTITY_HPP_INCLUDED
