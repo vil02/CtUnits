@@ -50,63 +50,112 @@ BOOST_AUTO_TEST_CASE(test_substract)
     BOOST_CHECK_EQUAL(result.get_value(), value_a - value_b);
 }
 
-BOOST_AUTO_TEST_CASE(test_multiply)
+struct ExampleUnitsDimsA
+{
+    using units_dims_a = ctu::UdList<
+        ctu::UnitDimension<bool, -2>, ctu::UnitDimension<char, 4>,
+        ctu::UnitDimension<long double, 3>>;
+
+    using units_dims_b = ctu::UdList<
+        ctu::UnitDimension<bool, 3>, ctu::UnitDimension<char, -4>,
+        ctu::UnitDimension<double, 1>, ctu::UnitDimension<int, 10>,
+        ctu::UnitDimension<long double, 3>>;
+
+    using prod_units_dims = ctu::UdList<
+        ctu::UnitDimension<bool, 1>, ctu::UnitDimension<double, 1>,
+        ctu::UnitDimension<int, 10>, ctu::UnitDimension<long double, 6>>;
+
+    using div_units_dims = ctu::UdList<
+        ctu::UnitDimension<bool, -5>, ctu::UnitDimension<char, 8>,
+        ctu::UnitDimension<double, -1>, ctu::UnitDimension<int, -10>>;
+};
+
+struct ExampleUnitsDimsB
+{
+    using units_dims_a = ctu::UdList<
+        ctu::UnitDimension<bool, 1>, ctu::UnitDimension<long double, -2>>;
+
+    using units_dims_b =
+        ctu::UdList<ctu::UnitDimension<char, 3>, ctu::UnitDimension<int, -4>>;
+
+    using prod_units_dims = ctu::UdList<
+        ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, 3>,
+        ctu::UnitDimension<int, -4>, ctu::UnitDimension<long double, -2>>;
+
+    using div_units_dims = ctu::UdList<
+        ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, -3>,
+        ctu::UnitDimension<int, 4>, ctu::UnitDimension<long double, -2>>;
+};
+
+struct ExampleUnitsDimsC
+{
+    using units_dims_a = ctu::UdList<>;
+    using units_dims_b = units_dims_a;
+    using prod_units_dims = units_dims_a;
+    using div_units_dims = units_dims_a;
+};
+
+struct ExampleUnitsDimsD
+{
+    using units_dims_a = ctu::UdList<>;
+    using units_dims_b = ctu::UdList<ctu::UnitDimension<int, -5>>;
+    using prod_units_dims = units_dims_b;
+    using div_units_dims = ctu::UdList<ctu::UnitDimension<int, 5>>;
+};
+
+struct ExampleUnitsDimsE
+{
+    using units_dims_a = ctu::UdList<ctu::UnitDimension<char, 2>>;
+    using units_dims_b = ctu::UdList<>;
+    using prod_units_dims = units_dims_a;
+    using div_units_dims = units_dims_a;
+};
+
+using UnitsDimsExamples = boost::mp11::mp_list<
+    ExampleUnitsDimsA, ExampleUnitsDimsB, ExampleUnitsDimsC, ExampleUnitsDimsD,
+    ExampleUnitsDimsE>;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(
+    test_multiply, UnitsDimsExample, UnitsDimsExamples)
 {
     using value_type = int;
     const value_type value_a = 4;
-    using quantity_type_a = ctu::Quantity<
-        value_type,
-        ctu::UdList<
-            ctu::UnitDimension<bool, -2>, ctu::UnitDimension<char, 4>,
-            ctu::UnitDimension<long double, 3>>>;
+    using quantity_type_a =
+        ctu::Quantity<value_type, typename UnitsDimsExample::units_dims_a>;
     const auto quantity_a = quantity_type_a(value_a);
 
     const value_type value_b = 3;
-    using quantity_type_b = ctu::Quantity<
-        value_type,
-        ctu::UdList<
-            ctu::UnitDimension<bool, 3>, ctu::UnitDimension<char, -4>,
-            ctu::UnitDimension<double, 1>, ctu::UnitDimension<int, 10>,
-            ctu::UnitDimension<long double, 2>>>;
+    using quantity_type_b =
+        ctu::Quantity<value_type, typename UnitsDimsExample::units_dims_b>;
     const auto quantity_b = quantity_type_b(value_b);
 
-    using expected_result_type = ctu::Quantity<
-        value_type,
-        ctu::UdList<
-            ctu::UnitDimension<bool, 1>, ctu::UnitDimension<double, 1>,
-            ctu::UnitDimension<int, 10>, ctu::UnitDimension<long double, 5>>>;
+    using expected_result_type =
+        ctu::Quantity<value_type, typename UnitsDimsExample::prod_units_dims>;
     const auto result = quantity_a * quantity_b;
     BOOST_STATIC_ASSERT(
         std::is_same_v<
             std::remove_const_t<decltype(result)>, expected_result_type>);
+    BOOST_STATIC_ASSERT(
+        std::is_same_v<
+            decltype(quantity_b * quantity_a), expected_result_type>);
     BOOST_CHECK_EQUAL(result.get_value(), value_a * value_b);
 }
 
-BOOST_AUTO_TEST_CASE(test_divide)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_divide, UnitsDimsExample, UnitsDimsExamples)
 {
     using value_type = int;
     const value_type value_a = 12;
-    using quantity_type_a = ctu::Quantity<
-        value_type,
-        ctu::UdList<
-            ctu::UnitDimension<bool, -2>, ctu::UnitDimension<char, 4>,
-            ctu::UnitDimension<long double, 3>>>;
+    using quantity_type_a =
+        ctu::Quantity<value_type, typename UnitsDimsExample::units_dims_a>;
     const auto quantity_a = quantity_type_a(value_a);
 
     const value_type value_b = 3;
-    using quantity_type_b = ctu::Quantity<
-        value_type,
-        ctu::UdList<
-            ctu::UnitDimension<bool, 3>, ctu::UnitDimension<char, -4>,
-            ctu::UnitDimension<double, 1>, ctu::UnitDimension<int, 10>,
-            ctu::UnitDimension<long double, 3>>>;
+    using quantity_type_b =
+        ctu::Quantity<value_type, typename UnitsDimsExample::units_dims_b>;
     const auto quantity_b = quantity_type_b(value_b);
 
-    using expected_result_type = ctu::Quantity<
-        value_type,
-        ctu::UdList<
-            ctu::UnitDimension<bool, -5>, ctu::UnitDimension<char, 8>,
-            ctu::UnitDimension<double, -1>, ctu::UnitDimension<int, -10>>>;
+    using expected_result_type =
+        ctu::Quantity<value_type, typename UnitsDimsExample::div_units_dims>;
     const auto result = quantity_a / quantity_b;
     BOOST_STATIC_ASSERT(
         std::is_same_v<
