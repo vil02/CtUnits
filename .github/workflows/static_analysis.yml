@@ -40,7 +40,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libboost-all-dev
- 
+
       - name: Display boost version
         run: |
           dpkg -s libboost-dev | grep Version
