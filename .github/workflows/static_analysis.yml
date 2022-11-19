@@ -1,0 +1,67 @@
+---
+name: static_analysis
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  build_path: ${{github.workspace}}/build
+
+jobs:
+  static_analysis_build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04]
+        compiler: [g++-12]
+        clang_tidy: [clang-tidy]
+        build_type: [Release, Debug]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install ${{matrix.compiler}}
+        run: |
+          sudo apt-get install ${{matrix.compiler}}
+
+      - name: Install static analysis tools
+        run: |
+          sudo apt-get install ${{matrix.clang_tidy}}
+          sudo apt-get install cppcheck
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{env.build_path}}
+
+      - name: Display versions
+        run: |
+          ${{matrix.compiler}} --version
+          cmake --version
+          cppcheck --version
+          ${{matrix.clang_tidy}} --version
+
+      - name: Configure CMake
+        working-directory: ${{env.build_path}}
+        run: >
+          cmake ../
+          -D CMAKE_BUILD_TYPE=${{matrix.build_type}}
+          -D CMAKE_CXX_COMPILER=${{matrix.compiler}}
+          -D ENABLE_CLANG_TIDY=ON -D CLANG_TIDY_NAME=${{matrix.clang_tidy}}
+          -D ENABLE_CPPCHECK=ON
+          -D ENABLE_BOOST_TESTS=ON -D ENABLE_TESTING=ON
+
+      - name: Build with ${{matrix.clang_tidy}} and cppcheck
+        working-directory: ${{env.build_path}}
+        run: |
+          cmake --build . --config ${{matrix.build_type}}
+
+      - name: Test
+        working-directory: ${{env.build_path}}
+        run: ctest -C ${{matrix.build_type}}
+...
