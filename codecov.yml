@@ -2,4 +2,7 @@
 ignore:
   - 'tests'
   - 'examples'
+
+fixes:
+  - '*::/../'
 ...
