@@ -85,6 +85,7 @@ jobs:
           cd scripts
           ./generate_raw_coverage_data_gxx.sh
           ./run_gcovr_sonarqube.sh
+          ./run_gcovr_xml.sh
 
       - name: Run sonar-scanner
         env:
@@ -95,3 +96,14 @@ jobs:
           --define sonar.host.url="${{ env.SONAR_SERVER_URL }}"
           --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
         # yamllint enable rule:line-length
+
+      - name: Copy the coverage report to the root
+        run: cp ./coverage_reports/xml_coverage_report.xml .
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          files: xml_coverage_report.xml
+...
