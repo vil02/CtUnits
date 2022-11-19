@@ -23,11 +23,11 @@ using UdPairToUnitDimension = UnitDimension<
     boost::mp11::mp_second<MpUnitDimension>::value>;
 
 template <typename UnitsDimensions>
-using UdListToMpList =
+using UdMapToMpList =
     boost::mp11::mp_transform<UnitDimensionToUdPair, UnitsDimensions>;
 
 template <typename MpUnitsDimensions>
-using MpListToUdList =
+using MpListToUdMap =
     boost::mp11::mp_transform<UdPairToUnitDimension, MpUnitsDimensions>;
 } // namespace ctu::tcu
 

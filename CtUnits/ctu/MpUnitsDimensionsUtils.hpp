@@ -99,16 +99,15 @@ using SubstractMpUnitsDims =
     AddMpUnitsDims<MpUnitsDimsA, MinusDims<MpUnitsDimsB>>;
 
 template <
-    template <typename, typename> typename F, typename UdListA,
-    typename UdListB>
-using convert_and_transform = ::ctu::tcu::MpListToUdList<F<
-    ::ctu::tcu::UdListToMpList<UdListA>, ::ctu::tcu::UdListToMpList<UdListB>>>;
+    template <typename, typename> typename F, typename UdMapA, typename UdMapB>
+using convert_and_transform = ::ctu::tcu::MpListToUdMap<
+    F<::ctu::tcu::UdMapToMpList<UdMapA>, ::ctu::tcu::UdMapToMpList<UdMapB>>>;
 
-template <typename UdListA, typename UdListB>
-using AddUdLists = convert_and_transform<AddMpUnitsDims, UdListA, UdListB>;
+template <typename UdMapA, typename UdMapB>
+using AddUdMaps = convert_and_transform<AddMpUnitsDims, UdMapA, UdMapB>;
 
-template <typename UdListA, typename UdListB>
-using SubstractUdLists =
-    convert_and_transform<SubstractMpUnitsDims, UdListA, UdListB>;
+template <typename UdMapA, typename UdMapB>
+using SubstractUdMaps =
+    convert_and_transform<SubstractMpUnitsDims, UdMapA, UdMapB>;
 } // namespace ctu::ud_operations
 #endif // MP_UNITS_DIMENSIONS_UTILS_HPP_INCLUDED

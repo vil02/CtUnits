@@ -13,15 +13,14 @@ int main()
 
     using value_type = double;
     using DistanceInMeters =
-        ctu::Quantity<value_type, ctu::UdList<ctu::UnitDimension<Meter, 1>>>;
+        ctu::Quantity<value_type, ctu::UdMap<ctu::UnitDimension<Meter, 1>>>;
 
     using DistanceInInches =
-        ctu::Quantity<value_type, ctu::UdList<ctu::UnitDimension<Inch, 1>>>;
+        ctu::Quantity<value_type, ctu::UdMap<ctu::UnitDimension<Inch, 1>>>;
 
     const auto meter_to_inch = ctu::Quantity<
         value_type,
-        ctu::UdList<
-            ctu::UnitDimension<Inch, -1>, ctu::UnitDimension<Meter, 1>>>(
+        ctu::UdMap<ctu::UnitDimension<Inch, -1>, ctu::UnitDimension<Meter, 1>>>(
         0.0254);
 
     const auto distance_in_meters = DistanceInMeters(123.0);
