@@ -107,5 +107,5 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: true
-          files: cobertura_coverage_report.xml
+          files: coverage_reports/cobertura_coverage_report.xml
 ...
