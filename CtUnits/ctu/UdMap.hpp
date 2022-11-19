@@ -8,9 +8,8 @@
 
 namespace ctu
 {
-template <typename... T> class GetUdMap
+template <typename... T> struct GetUdMap
 {
-  public:
     using result = boost::mp11::mp_list<T...>;
 
     static_assert(ud_operations::IsValidMpUnitsDims<
