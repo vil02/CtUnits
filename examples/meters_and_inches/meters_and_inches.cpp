@@ -6,13 +6,13 @@ int main()
 {
     struct Meter
     {
+        
     };
     struct Inch
-    {
-    };
+    {};
 
     using value_type = double;
-    using DistanceInMeters =
+        using DistanceInMeters =
         ctu::Quantity<value_type, ctu::UdList<ctu::UnitDimension<Meter, 1>>>;
 
     using DistanceInInches =
