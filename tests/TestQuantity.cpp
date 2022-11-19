@@ -163,16 +163,16 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_divide, UnitsDimsExample, UnitsDimsExamples)
     BOOST_CHECK_EQUAL(result.get_value(), value_a / value_b);
 }
 
-using value_types =
+using ValueTypes =
     boost::mp11::mp_list<std::int8_t, std::int16_t, std::int32_t, std::int64_t>;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(
-    has_same_size_as_value_type, value_type, value_types)
+    has_same_size_as_value_type, ValueType, ValueTypes)
 {
     using units_dimensions = ctu::UdList<
         ctu::UnitDimension<bool, -1>, ctu::UnitDimension<char, 2>,
         ctu::UnitDimension<double, 3>, ctu::UnitDimension<int, -23>>;
     BOOST_STATIC_ASSERT(
-        sizeof(ctu::Quantity<value_type, units_dimensions>) ==
-        sizeof(value_type));
+        sizeof(ctu::Quantity<ValueType, units_dimensions>) ==
+        sizeof(ValueType));
 }
