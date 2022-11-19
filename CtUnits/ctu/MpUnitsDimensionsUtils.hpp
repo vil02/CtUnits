@@ -40,6 +40,17 @@ template <typename MpUnitDimA, typename MpUnitDimB> constexpr bool is_less()
 template <typename MpUnitDimA, typename MpUnitDimB>
 using IsLess = boost::mp11::mp_bool<is_less<MpUnitDimA, MpUnitDimB>()>;
 
+template <typename MpUnitsDims> class IsValidMpUnitsDims
+{
+    static constexpr auto is_map = boost::mp11::mp_is_map<MpUnitsDims>::value;
+    using mp_units_dims_sorted = boost::mp11::mp_sort<MpUnitsDims, IsLess>;
+    static constexpr auto is_sorted =
+        std::is_same_v<MpUnitsDims, mp_units_dims_sorted>;
+
+  public:
+    static constexpr bool value = is_map && is_sorted;
+};
+
 template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UsedUnits
 {
     using units_a = boost::mp11::mp_map_keys<MpUnitsDimsA>;
@@ -79,7 +90,7 @@ template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsAdder
 
   public:
     using result = boost::mp11::mp_sort<result_not_sorted, IsLess>;
-    static_assert(boost::mp11::mp_is_map<result>::value);
+    static_assert(IsValidMpUnitsDims<result>::value);
 };
 
 template <typename MpUnitDimension>
