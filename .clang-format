@@ -1,12 +1,14 @@
 ---
-BasedOnStyle: GNU
 AlignAfterOpenBracket: AlwaysBreak
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
+BreakBeforeBraces: Allman
 BraceWrapping:
+  IndentBraces: false
   SplitEmptyFunction: false
-BreakBeforeBraces: Custom
-IndentWidth: 4
+IndentWidth: '4'
+ReferenceAlignment: Left
 SpaceBeforeParens: Custom
 SpaceBeforeParensOptions:
   AfterControlStatements: true
+...
