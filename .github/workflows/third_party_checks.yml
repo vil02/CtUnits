@@ -10,7 +10,7 @@ on:
   pull_request:
 
 jobs:
-  sonarcloud:
+  third_party_checks:
     name: Build (sonarCloud)
     runs-on: ubuntu-latest
     env:
