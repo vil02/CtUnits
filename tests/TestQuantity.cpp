@@ -12,7 +12,7 @@ BOOST_AUTO_TEST_CASE(test_get_value)
     const int some_value = 10;
     using quantity_type = ctu::Quantity<
         std::remove_const_t<decltype(some_value)>,
-        ctu::UdList<ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, -3>>>;
+        ctu::UdMap<ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, -3>>>;
     const auto example_quantity = quantity_type(some_value);
     BOOST_CHECK_EQUAL(example_quantity.get_value(), some_value);
 }
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(test_add)
     const value_type value_b = 10;
     using quantity_type = ctu::Quantity<
         value_type,
-        ctu::UdList<ctu::UnitDimension<char, -4>, ctu::UnitDimension<int, 4>>>;
+        ctu::UdMap<ctu::UnitDimension<char, -4>, ctu::UnitDimension<int, 4>>>;
     const auto quantity_a = quantity_type(value_a);
     const auto quantity_b = quantity_type(value_b);
     const auto result = quantity_a + quantity_b;
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(test_substract)
     const value_type value_b = -5;
     using quantity_type = ctu::Quantity<
         value_type,
-        ctu::UdList<
+        ctu::UdMap<
             ctu::UnitDimension<bool, -2>, ctu::UnitDimension<long double, 3>>>;
     const auto quantity_a = quantity_type(value_a);
     const auto quantity_b = quantity_type(value_b);
@@ -52,44 +52,44 @@ BOOST_AUTO_TEST_CASE(test_substract)
 
 struct ExampleUnitsDimsA
 {
-    using units_dims_a = ctu::UdList<
+    using units_dims_a = ctu::UdMap<
         ctu::UnitDimension<bool, -2>, ctu::UnitDimension<char, 4>,
         ctu::UnitDimension<long double, 3>>;
 
-    using units_dims_b = ctu::UdList<
+    using units_dims_b = ctu::UdMap<
         ctu::UnitDimension<bool, 3>, ctu::UnitDimension<char, -4>,
         ctu::UnitDimension<double, 1>, ctu::UnitDimension<int, 10>,
         ctu::UnitDimension<long double, 3>>;
 
-    using prod_units_dims = ctu::UdList<
+    using prod_units_dims = ctu::UdMap<
         ctu::UnitDimension<bool, 1>, ctu::UnitDimension<double, 1>,
         ctu::UnitDimension<int, 10>, ctu::UnitDimension<long double, 6>>;
 
-    using div_units_dims = ctu::UdList<
+    using div_units_dims = ctu::UdMap<
         ctu::UnitDimension<bool, -5>, ctu::UnitDimension<char, 8>,
         ctu::UnitDimension<double, -1>, ctu::UnitDimension<int, -10>>;
 };
 
 struct ExampleUnitsDimsB
 {
-    using units_dims_a = ctu::UdList<
+    using units_dims_a = ctu::UdMap<
         ctu::UnitDimension<bool, 1>, ctu::UnitDimension<long double, -2>>;
 
     using units_dims_b =
-        ctu::UdList<ctu::UnitDimension<char, 3>, ctu::UnitDimension<int, -4>>;
+        ctu::UdMap<ctu::UnitDimension<char, 3>, ctu::UnitDimension<int, -4>>;
 
-    using prod_units_dims = ctu::UdList<
+    using prod_units_dims = ctu::UdMap<
         ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, 3>,
         ctu::UnitDimension<int, -4>, ctu::UnitDimension<long double, -2>>;
 
-    using div_units_dims = ctu::UdList<
+    using div_units_dims = ctu::UdMap<
         ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, -3>,
         ctu::UnitDimension<int, 4>, ctu::UnitDimension<long double, -2>>;
 };
 
 struct ExampleUnitsDimsC
 {
-    using units_dims_a = ctu::UdList<>;
+    using units_dims_a = ctu::UdMap<>;
     using units_dims_b = units_dims_a;
     using prod_units_dims = units_dims_a;
     using div_units_dims = units_dims_a;
@@ -97,16 +97,16 @@ struct ExampleUnitsDimsC
 
 struct ExampleUnitsDimsD
 {
-    using units_dims_a = ctu::UdList<>;
-    using units_dims_b = ctu::UdList<ctu::UnitDimension<int, -5>>;
+    using units_dims_a = ctu::UdMap<>;
+    using units_dims_b = ctu::UdMap<ctu::UnitDimension<int, -5>>;
     using prod_units_dims = units_dims_b;
-    using div_units_dims = ctu::UdList<ctu::UnitDimension<int, 5>>;
+    using div_units_dims = ctu::UdMap<ctu::UnitDimension<int, 5>>;
 };
 
 struct ExampleUnitsDimsE
 {
-    using units_dims_a = ctu::UdList<ctu::UnitDimension<char, 2>>;
-    using units_dims_b = ctu::UdList<>;
+    using units_dims_a = ctu::UdMap<ctu::UnitDimension<char, 2>>;
+    using units_dims_b = ctu::UdMap<>;
     using prod_units_dims = units_dims_a;
     using div_units_dims = units_dims_a;
 };
@@ -169,7 +169,7 @@ using ValueTypes =
 BOOST_AUTO_TEST_CASE_TEMPLATE(
     has_same_size_as_value_type, ValueType, ValueTypes)
 {
-    using units_dimensions = ctu::UdList<
+    using units_dimensions = ctu::UdMap<
         ctu::UnitDimension<bool, -1>, ctu::UnitDimension<char, 2>,
         ctu::UnitDimension<double, 3>, ctu::UnitDimension<int, -23>>;
     BOOST_STATIC_ASSERT(

@@ -6,14 +6,14 @@
 #include "MpUnitsDimensionsUtils.hpp"
 #include "UnitDimension.hpp"
 
-#include "UdList.hpp"
+#include "UdMap.hpp"
 
 namespace ctu
 {
 template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
 {
     static_assert(
-        boost::mp11::mp_is_map<tcu::UdListToMpList<UnitsDimensions>>::value);
+        boost::mp11::mp_is_map<tcu::UdMapToMpList<UnitsDimensions>>::value);
 
   public:
     using value_type = F;
@@ -45,7 +45,7 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
     [[nodiscard]] constexpr auto
     operator*(const Quantity<F, OtherUnitsDimensions>& other) const
     {
-        using result_units_dims = ctu::ud_operations::AddUdLists<
+        using result_units_dims = ctu::ud_operations::AddUdMaps<
             UnitsDimensions, OtherUnitsDimensions>;
         using result_type = Quantity<F, result_units_dims>;
         return result_type(this->get_value() * other.get_value());
@@ -55,7 +55,7 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
     [[nodiscard]] constexpr auto
     operator/(const Quantity<F, OtherUnitsDimensions>& other) const
     {
-        using result_units_dims = ctu::ud_operations::SubstractUdLists<
+        using result_units_dims = ctu::ud_operations::SubstractUdMaps<
             UnitsDimensions, OtherUnitsDimensions>;
         using result_type = Quantity<F, result_units_dims>;
         return result_type(this->get_value() / other.get_value());
