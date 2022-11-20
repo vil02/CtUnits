@@ -27,10 +27,18 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
 
     [[nodiscard]] value_type get_value() const { return this->value; }
 
+    constexpr Quantity<F, UnitsDimensions>&
+    operator+=(const Quantity<F, UnitsDimensions>& other)
+    {
+        this->value += other.get_value();
+        return *this;
+    }
+
     [[nodiscard]] constexpr Quantity<F, UnitsDimensions>
     operator+(const Quantity<F, UnitsDimensions>& other) const
     {
-        return Quantity(this->get_value() + other.get_value());
+        auto res = *this;
+        return res += other;
     }
 
     [[nodiscard]] constexpr Quantity<F, UnitsDimensions>

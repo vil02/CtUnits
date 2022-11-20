@@ -7,24 +7,49 @@
 #include <cstdint>
 #include <type_traits>
 
-BOOST_AUTO_TEST_CASE(test_get_value)
+using ExampleUnitDimA =
+    ctu::UdMap<ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, -3>>;
+using ExampleUnitDimB =
+    ctu::UdMap<ctu::UnitDimension<char, -4>, ctu::UnitDimension<int, 4>>;
+using ExampleUnitDimC = ctu::UdMap<
+    ctu::UnitDimension<bool, -2>, ctu::UnitDimension<long double, 3>>;
+using ExampleUnitDimD = ctu::UdMap<ctu::UnitDimension<bool, 1>>;
+using ExampleUnitDimE = ctu::UdMap<>;
+
+using UnitDimExamples = boost::mp11::mp_list<
+    ExampleUnitDimA, ExampleUnitDimB, ExampleUnitDimC, ExampleUnitDimD,
+    ExampleUnitDimE>;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_get_value, UnitDimExample, UnitDimExamples)
 {
     const int some_value = 10;
     using quantity_type = ctu::Quantity<
-        std::remove_const_t<decltype(some_value)>,
-        ctu::UdMap<ctu::UnitDimension<bool, 1>, ctu::UnitDimension<char, -3>>>;
+        std::remove_const_t<decltype(some_value)>, UnitDimExample>;
     const auto example_quantity = quantity_type(some_value);
     BOOST_CHECK_EQUAL(example_quantity.get_value(), some_value);
 }
 
-BOOST_AUTO_TEST_CASE(test_add)
+BOOST_AUTO_TEST_CASE_TEMPLATE(
+    test_plus_asssign, UnitDimExample, UnitDimExamples)
+{
+    using value_type = unsigned;
+    const value_type some_value = 11;
+    const value_type some_diff = 12;
+
+    value_type some_value_copy = some_value;
+
+    using quantity_type = ctu::Quantity<value_type, UnitDimExample>;
+    auto quantity = quantity_type(some_value);
+    quantity += quantity_type(some_diff);
+    BOOST_CHECK_EQUAL(quantity.get_value(), some_value_copy += some_diff);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_add, UnitDimExample, UnitDimExamples)
 {
     using value_type = unsigned;
     const value_type value_a = 10;
     const value_type value_b = 10;
-    using quantity_type = ctu::Quantity<
-        value_type,
-        ctu::UdMap<ctu::UnitDimension<char, -4>, ctu::UnitDimension<int, 4>>>;
+    using quantity_type = ctu::Quantity<value_type, UnitDimExample>;
     const auto quantity_a = quantity_type(value_a);
     const auto quantity_b = quantity_type(value_b);
     const auto result = quantity_a + quantity_b;
@@ -33,15 +58,12 @@ BOOST_AUTO_TEST_CASE(test_add)
     BOOST_CHECK_EQUAL(result.get_value(), value_a + value_b);
 }
 
-BOOST_AUTO_TEST_CASE(test_substract)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_substract, UnitDimExample, UnitDimExamples)
 {
     using value_type = int;
     const value_type value_a = 4;
     const value_type value_b = -5;
-    using quantity_type = ctu::Quantity<
-        value_type,
-        ctu::UdMap<
-            ctu::UnitDimension<bool, -2>, ctu::UnitDimension<long double, 3>>>;
+    using quantity_type = ctu::Quantity<value_type, UnitDimExample>;
     const auto quantity_a = quantity_type(value_a);
     const auto quantity_b = quantity_type(value_b);
     const auto result = quantity_a - quantity_b;
