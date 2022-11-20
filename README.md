@@ -8,4 +8,7 @@
 [![codecov](https://codecov.io/github/vil02/CtUnits/branch/master/graph/badge.svg?token=B1LD8I1WYH)](https://codecov.io/github/vil02/CtUnits)
 
 Compilte-time utilites for dealing with quantities with units.
-Example [meters_and_inches.cpp](./examples/meters_and_inches/meters_and_inches.cpp) illustrates the basic usage.
+Example [`meters_and_inches.cpp`](./examples/meters_and_inches/meters_and_inches.cpp) illustrates the basic usage.
+
+[`CtUnits`](./CtUnits/) heavily relies on [Boost.Mp11](https://www.boost.org/doc/libs/master/libs/mp11/doc/html/mp11.html).
+The [`tests`](./tests/) require Boost.Test.
