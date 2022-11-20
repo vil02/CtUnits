@@ -115,6 +115,18 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(
     BOOST_CHECK_EQUAL(quantity.get_value(), some_value_copy *= example_factor);
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(
+    test_divide_assign, UnitDimExample, UnitDimExamples)
+{
+    using value_type = unsigned;
+    const value_type some_value = 300;
+    value_type some_value_copy = some_value;
+    const value_type example_factor = 100;
+    auto quantity = ctu::Quantity<value_type, UnitDimExample>(some_value);
+    quantity /= DimensionlessQuantity<value_type>(example_factor);
+    BOOST_CHECK_EQUAL(quantity.get_value(), some_value_copy /= example_factor);
+}
+
 struct ExampleUnitsDimsA
 {
     using units_dims_a = ctu::UdMap<
