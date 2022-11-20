@@ -38,15 +38,17 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
     constexpr Quantity<F, UnitsDimensions>&
     operator+=(const Quantity<F, UnitsDimensions>& other)
     {
-        return this->modify_value([&other](auto& this_value)
-                                  { this_value += other.get_value(); });
+        return this->modify_value(
+            [other_value = other.get_value()](auto& this_value)
+            { this_value += other_value; });
     }
 
     constexpr Quantity<F, UnitsDimensions>&
     operator-=(const Quantity<F, UnitsDimensions>& other)
     {
-        return this->modify_value([&other](auto& this_value)
-                                  { this_value -= other.get_value(); });
+        return this->modify_value(
+            [other_value = other.get_value()](auto& this_value)
+            { this_value -= other_value; });
     }
 
     [[nodiscard]] constexpr Quantity<F, UnitsDimensions>
@@ -91,15 +93,17 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
     constexpr Quantity<F, UnitsDimensions>&
     operator*=(const Quantity<F, UdMap<>>& other)
     {
-        return this->modify_value([&other](auto& this_value)
-                                  { this_value *= other.get_value(); });
+        return this->modify_value(
+            [other_value = other.get_value()](auto& this_value)
+            { this_value *= other_value; });
     }
 
     constexpr Quantity<F, UnitsDimensions>&
     operator/=(const Quantity<F, UdMap<>>& other)
     {
-        return this->modify_value([&other](auto& this_value)
-                                  { this_value /= other.get_value(); });
+        return this->modify_value(
+            [other_value = other.get_value()](auto& this_value)
+            { this_value /= other_value; });
     }
 };
 } // namespace ctu
