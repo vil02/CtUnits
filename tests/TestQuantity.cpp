@@ -58,6 +58,21 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_add, UnitDimExample, UnitDimExamples)
     BOOST_CHECK_EQUAL(result.get_value(), value_a + value_b);
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(
+    test_substract_asssign, UnitDimExample, UnitDimExamples)
+{
+    using value_type = int;
+    const value_type some_value = 100;
+    const value_type some_diff = 90;
+
+    value_type some_value_copy = some_value;
+
+    using quantity_type = ctu::Quantity<value_type, UnitDimExample>;
+    auto quantity = quantity_type(some_value);
+    quantity -= quantity_type(some_diff);
+    BOOST_CHECK_EQUAL(quantity.get_value(), some_value_copy -= some_diff);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_substract, UnitDimExample, UnitDimExamples)
 {
     using value_type = int;
