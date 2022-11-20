@@ -100,6 +100,21 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_unary_minus, UnitDimExample, UnitDimExamples)
     BOOST_CHECK_EQUAL(-quantity.get_value(), (-quantity).get_value());
 }
 
+template <typename ValueType>
+using DimensionlessQuantity = ctu::Quantity<ValueType, ctu::UdMap<>>;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(
+    test_multiply_assign, UnitDimExample, UnitDimExamples)
+{
+    using value_type = int;
+    const value_type some_value = 3;
+    value_type some_value_copy = some_value;
+    const value_type example_factor = 10;
+    auto quantity = ctu::Quantity<value_type, UnitDimExample>(some_value);
+    quantity *= DimensionlessQuantity<value_type>(example_factor);
+    BOOST_CHECK_EQUAL(quantity.get_value(), some_value_copy *= example_factor);
+}
+
 struct ExampleUnitsDimsA
 {
     using units_dims_a = ctu::UdMap<

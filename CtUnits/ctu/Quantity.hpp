@@ -79,6 +79,13 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
         using result_type = Quantity<F, result_units_dims>;
         return result_type(this->get_value() / other.get_value());
     }
+
+    constexpr Quantity<F, UnitsDimensions>&
+    operator*=(const Quantity<F, UdMap<>>& other)
+    {
+        this->value *= other.get_value();
+        return *this;
+    }
 };
 } // namespace ctu
 #endif // QUANTITY_HPP_INCLUDED
