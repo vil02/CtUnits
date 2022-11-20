@@ -55,6 +55,11 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
         return res -= other;
     }
 
+    [[nodiscard]] constexpr Quantity<F, UnitsDimensions> operator-() const
+    {
+        return Quantity<F, UnitsDimensions>(-this->get_value());
+    }
+
     template <typename OtherUnitsDimensions>
     [[nodiscard]] constexpr auto
     operator*(const Quantity<F, OtherUnitsDimensions>& other) const

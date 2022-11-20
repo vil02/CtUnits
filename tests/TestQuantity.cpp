@@ -87,6 +87,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_substract, UnitDimExample, UnitDimExamples)
     BOOST_CHECK_EQUAL(result.get_value(), value_a - value_b);
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_unary_minus, UnitDimExample, UnitDimExamples)
+{
+    using value_type = int;
+    const value_type some_value = 100;
+
+    using quantity_type = ctu::Quantity<value_type, UnitDimExample>;
+    const auto quantity = quantity_type(some_value);
+    BOOST_STATIC_ASSERT(
+        std::is_same_v<
+            std::remove_const_t<decltype(quantity)>, decltype(-quantity)>);
+    BOOST_CHECK_EQUAL(-quantity.get_value(), (-quantity).get_value());
+}
+
 struct ExampleUnitsDimsA
 {
     using units_dims_a = ctu::UdMap<
