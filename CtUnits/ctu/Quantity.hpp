@@ -19,6 +19,14 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
   private:
     value_type value;
 
+    template <typename Modification>
+    constexpr Quantity<F, UnitsDimensions>&
+    modify(const Modification& modification)
+    {
+        modification(this->value);
+        return *this;
+    }
+
   public:
     [[nodiscard]] constexpr explicit Quantity(const value_type& in_value)
         : value(in_value)
@@ -30,15 +38,15 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
     constexpr Quantity<F, UnitsDimensions>&
     operator+=(const Quantity<F, UnitsDimensions>& other)
     {
-        this->value += other.get_value();
-        return *this;
+        return this->modify([&other](auto& value)
+                            { value += other.get_value(); });
     }
 
     constexpr Quantity<F, UnitsDimensions>&
     operator-=(const Quantity<F, UnitsDimensions>& other)
     {
-        this->value -= other.get_value();
-        return *this;
+        return this->modify([&other](auto& value)
+                            { value -= other.get_value(); });
     }
 
     [[nodiscard]] constexpr Quantity<F, UnitsDimensions>
@@ -83,15 +91,15 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
     constexpr Quantity<F, UnitsDimensions>&
     operator*=(const Quantity<F, UdMap<>>& other)
     {
-        this->value *= other.get_value();
-        return *this;
+        return this->modify([&other](auto& value)
+                            { value *= other.get_value(); });
     }
 
     constexpr Quantity<F, UnitsDimensions>&
     operator/=(const Quantity<F, UdMap<>>& other)
     {
-        this->value /= other.get_value();
-        return *this;
+        return this->modify([&other](auto& value)
+                            { value /= other.get_value(); });
     }
 };
 } // namespace ctu
