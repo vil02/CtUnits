@@ -1,4 +1,4 @@
-set(example_name speed)
+set(example_name speed_units)
 
 add_regular_executable(${example_name}.cpp)
 
