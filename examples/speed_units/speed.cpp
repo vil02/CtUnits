@@ -1,6 +1,5 @@
 #include "../../CtUnits/CtUnits.hpp"
 #include <iostream>
-#include <type_traits>
 
 template <typename... Uds> using Quantity = ctu::Quantity<double, Uds...>;
 
