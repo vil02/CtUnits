@@ -4,8 +4,18 @@
 
 template <typename... Uds> using Quantity = ctu::Quantity<double, Uds...>;
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
+    double input_value = 0.0;
+    try
+    {
+        input_value = parse_input(argc, argv);
+    }
+    catch (...)
+    {
+        std::cerr << "Couldnot parse the input!\n";
+        return 1;
+    }
     struct Meter
     {
     };
@@ -36,7 +46,7 @@ int main(int argc, char *argv[])
         3.28084);
 
     const auto density_in_kg_per_cubic_m =
-        DensityInKgPerCubicMeter(parse_input(argc, argv));
+        DensityInKgPerCubicMeter(input_value);
     const DensityInLbsPerCubicFoot density_lbs_un_cubis_ft =
         density_in_kg_per_cubic_m * lbs_to_kg /
         (foot_to_meter * foot_to_meter * foot_to_meter);
