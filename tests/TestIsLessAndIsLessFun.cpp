@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE TestMpUnitsDimensionsUtils
+#define BOOST_TEST_MODULE TestIsLessAndIsLessFun
 
 #include "../CtUnits/ctu/MpUnitsDimensionsUtils.hpp"
 #include "../CtUnits/ctu/TypeConversionUtils.hpp"
