@@ -38,9 +38,8 @@ using SortMpUnitsDims = boost::mp11::mp_sort<MpUnitsDims, IsLess>;
 template <typename MpUnitsDims> class IsValidMpUnitsDims
 {
     static constexpr auto is_map = boost::mp11::mp_is_map<MpUnitsDims>::value;
-    using mp_units_dims_sorted = boost::mp11::mp_sort<MpUnitsDims, IsLess>;
     static constexpr auto is_sorted =
-        std::is_same_v<MpUnitsDims, mp_units_dims_sorted>;
+        std::is_same_v<MpUnitsDims, SortMpUnitsDims<MpUnitsDims>>;
 
   public:
     static constexpr bool value = is_map && is_sorted;
