@@ -10,14 +10,6 @@
 
 namespace ctu::ud_operations
 {
-template <typename Map, typename Keys> class GetRows
-{
-    template <typename Key> using get_row = boost::mp11::mp_map_find<Map, Key>;
-
-  public:
-    using result = boost::mp11::mp_transform<get_row, Keys>;
-};
-
 template <typename MpUnitDim> using GetUnit = boost::mp11::mp_first<MpUnitDim>;
 
 template <typename MpUnitDim>
@@ -40,6 +32,9 @@ template <typename MpUnitDimA, typename MpUnitDimB> constexpr bool is_less()
 template <typename MpUnitDimA, typename MpUnitDimB>
 using IsLess = boost::mp11::mp_bool<is_less<MpUnitDimA, MpUnitDimB>()>;
 
+template <typename MpUnitsDims>
+using SortMpUnitsDims = boost::mp11::mp_sort<MpUnitsDims, IsLess>;
+
 template <typename MpUnitsDims> class IsValidMpUnitsDims
 {
     static constexpr auto is_map = boost::mp11::mp_is_map<MpUnitsDims>::value;
@@ -51,45 +46,50 @@ template <typename MpUnitsDims> class IsValidMpUnitsDims
     static constexpr bool value = is_map && is_sorted;
 };
 
-template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UsedUnits
+template <typename MpUnitsDims, typename Unit>
+using QueryUnitDim = boost::mp11::mp_if<
+    boost::mp11::mp_map_contains<MpUnitsDims, Unit>,
+    boost::mp11::mp_map_find<MpUnitsDims, Unit>,
+    ctu::tcu::UdPair<Unit, ctu::tcu::Dim<0>>>;
+
+template <typename MpUnitsDims, typename Unit>
+using QueryDim = GetDimType<QueryUnitDim<MpUnitsDims, Unit>>;
+
+template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsRawAdder
 {
-    using units_a = boost::mp11::mp_map_keys<MpUnitsDimsA>;
-    using units_b = boost::mp11::mp_map_keys<MpUnitsDimsB>;
+    using used_units = boost::mp11::mp_set_union<
+        boost::mp11::mp_map_keys<MpUnitsDimsA>,
+        boost::mp11::mp_map_keys<MpUnitsDimsB>>;
+
+    template <typename Unit>
+    using add_dims = ctu::tcu::UdPair<
+        Unit, boost::mp11::mp_plus<
+                  QueryDim<MpUnitsDimsA, Unit>, QueryDim<MpUnitsDimsB, Unit>>>;
 
   public:
-    using common = boost::mp11::mp_set_intersection<units_a, units_b>;
-    using only_a = boost::mp11::mp_set_difference<units_a, units_b>;
-    using only_b = boost::mp11::mp_set_difference<units_b, units_a>;
+    using result = boost::mp11::mp_transform<add_dims, used_units>;
+};
+
+template <typename MpUnitsDims> class ZeroDimsRemover
+{
+    template <typename UnitDim>
+    using dimension_is_not_zero = boost::mp11::mp_bool<
+        !std::is_same_v<GetDimType<UnitDim>, ctu::tcu::Dim<0>>>;
+
+  public:
+    using result = boost::mp11::mp_copy_if<MpUnitsDims, dimension_is_not_zero>;
 };
 
 template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsAdder
 {
-    using used_units = UsedUnits<MpUnitsDimsA, MpUnitsDimsB>;
-    template <typename Unit>
-    using add_dims_common = ctu::tcu::UdPair<
-        Unit, boost::mp11::mp_plus<
-                  GetDimType<boost::mp11::mp_map_find<MpUnitsDimsA, Unit>>,
-                  GetDimType<boost::mp11::mp_map_find<MpUnitsDimsB, Unit>>>>;
+    using raw_sum_of_units_dims =
+        typename UnitsDimsRawAdder<MpUnitsDimsA, MpUnitsDimsB>::result;
 
-    using common_unit_dims =
-        boost::mp11::mp_transform<add_dims_common, typename used_units::common>;
-
-    using only_a_dims =
-        typename GetRows<MpUnitsDimsA, typename used_units::only_a>::result;
-
-    using only_b_dims =
-        typename GetRows<MpUnitsDimsB, typename used_units::only_b>::result;
-
-    template <typename UnitDimension>
-    using dimension_is_not_zero = boost::mp11::mp_bool<
-        !std::is_same_v<GetDimType<UnitDimension>, ctu::tcu::Dim<0>>>;
-
-    using result_not_sorted = boost::mp11::mp_copy_if<
-        boost::mp11::mp_append<common_unit_dims, only_a_dims, only_b_dims>,
-        dimension_is_not_zero>;
+    using result_not_sorted =
+        typename ZeroDimsRemover<raw_sum_of_units_dims>::result;
 
   public:
-    using result = boost::mp11::mp_sort<result_not_sorted, IsLess>;
+    using result = SortMpUnitsDims<result_not_sorted>;
     static_assert(IsValidMpUnitsDims<result>::value);
 };
 
