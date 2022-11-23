@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     }
     catch (...)
     {
-        std::cout << "Couldnot parse the input!\n";
+        std::cerr << "Couldnot parse the input!\n";
         return 1;
     }
 
