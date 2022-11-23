@@ -7,20 +7,18 @@
 
 namespace ctu::tcu
 {
-template <int Dimension> using Dim = boost::mp11::mp_int<Dimension>;
-
 template <typename Unit, typename DimensionT>
 using UdPair = boost::mp11::mp_list<Unit, DimensionT>;
 
 template <typename UnitDimension>
-using UnitDimensionToUdPair = UdPair<
-    typename UnitDimension::unit,
-    boost::mp11::mp_int<UnitDimension::dimension>>;
+using UnitDimensionToUdPair =
+    UdPair<typename UnitDimension::unit, typename UnitDimension::dimension>;
 
 template <typename MpUnitDimension>
 using UdPairToUnitDimension = UnitDimension<
     boost::mp11::mp_first<MpUnitDimension>,
-    boost::mp11::mp_second<MpUnitDimension>::value>;
+    boost::mp11::mp_second<MpUnitDimension>::num,
+    boost::mp11::mp_second<MpUnitDimension>::den>;
 
 template <typename UnitsDimensions>
 using UdMapToMpList =

@@ -49,7 +49,7 @@ template <typename MpUnitsDims, typename Unit>
 using QueryUnitDim = boost::mp11::mp_if<
     boost::mp11::mp_map_contains<MpUnitsDims, Unit>,
     boost::mp11::mp_map_find<MpUnitsDims, Unit>,
-    ctu::tcu::UdPair<Unit, ctu::tcu::Dim<0>>>;
+    ctu::tcu::UdPair<Unit, ctu::ZeroDimension>>;
 
 template <typename MpUnitsDims, typename Unit>
 using QueryDim = GetDimType<QueryUnitDim<MpUnitsDims, Unit>>;
@@ -62,7 +62,7 @@ template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsRawAdder
 
     template <typename Unit>
     using add_dims = ctu::tcu::UdPair<
-        Unit, boost::mp11::mp_plus<
+        Unit, ctu::AddDimensions<
                   QueryDim<MpUnitsDimsA, Unit>, QueryDim<MpUnitsDimsB, Unit>>>;
 
   public:
@@ -72,8 +72,7 @@ template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsRawAdder
 template <typename MpUnitsDims> class ZeroDimsRemover
 {
     template <typename UnitDim>
-    using dimension_is_not_zero = boost::mp11::mp_bool<
-        !std::is_same_v<GetDimType<UnitDim>, ctu::tcu::Dim<0>>>;
+    using dimension_is_not_zero = IsDimensionIsNotZero<GetDimType<UnitDim>>;
 
   public:
     using result = boost::mp11::mp_copy_if<MpUnitsDims, dimension_is_not_zero>;
@@ -95,7 +94,7 @@ template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsAdder
 template <typename MpUnitDimension>
 using MinusDim = ctu::tcu::UdPair<
     GetUnit<MpUnitDimension>,
-    ::ctu::tcu::Dim<-GetDimType<MpUnitDimension>::value>>;
+    ::ctu::MinusDimension<GetDimType<MpUnitDimension>>>;
 
 template <typename MpUnitsDims>
 using MinusDims = boost::mp11::mp_transform<MinusDim, MpUnitsDims>;
