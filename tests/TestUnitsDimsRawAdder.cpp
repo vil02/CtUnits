@@ -7,19 +7,19 @@
 #include <boost/test/included/unit_test.hpp>
 
 using ExampleMpUnitsDimsA = boost::mp11::mp_list<
-    boost::mp11::mp_list<char, ctu::tcu::Dim<2>>,
-    boost::mp11::mp_list<int, ctu::tcu::Dim<3>>>;
+    boost::mp11::mp_list<char, ctu::Dimension<2>>,
+    boost::mp11::mp_list<int, ctu::Dimension<3, 2>>>;
 
 using ExampleMpUnitsDimsB = boost::mp11::mp_list<
-    boost::mp11::mp_list<bool, ctu::tcu::Dim<3>>,
-    boost::mp11::mp_list<int, ctu::tcu::Dim<4>>>;
+    boost::mp11::mp_list<bool, ctu::Dimension<3>>,
+    boost::mp11::mp_list<int, ctu::Dimension<4, 3>>>;
 
 BOOST_AUTO_TEST_CASE(TestUnitsDimsRawAdder)
 {
     using expected = boost::mp11::mp_list<
-        boost::mp11::mp_list<bool, ctu::tcu::Dim<3>>,
-        boost::mp11::mp_list<char, ctu::tcu::Dim<2>>,
-        boost::mp11::mp_list<int, ctu::tcu::Dim<7>>>;
+        boost::mp11::mp_list<bool, ctu::Dimension<3>>,
+        boost::mp11::mp_list<char, ctu::Dimension<2>>,
+        boost::mp11::mp_list<int, ctu::Dimension<17, 6>>>;
     using actual = ctu::ud_operations::UnitsDimsRawAdder<
         ExampleMpUnitsDimsA, ExampleMpUnitsDimsB>::result;
     BOOST_STATIC_ASSERT(std::is_same_v<
