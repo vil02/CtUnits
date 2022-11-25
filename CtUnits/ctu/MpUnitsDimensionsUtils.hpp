@@ -133,5 +133,9 @@ using AddUdMaps = convert_and_transform<AddMpUnitsDims, UdMapA, UdMapB>;
 template <typename UdMapA, typename UdMapB>
 using SubstractUdMaps =
     convert_and_transform<SubstractMpUnitsDims, UdMapA, UdMapB>;
+
+template <typename Multiplier, typename UdMap>
+using MultiplyUdMap = ::ctu::tcu::MpListToUdMap<
+    MultiplyDims<Multiplier, ::ctu::tcu::UdMapToMpList<UdMap>>>;
 } // namespace ctu::ud_operations
 #endif // MP_UNITS_DIMENSIONS_UTILS_HPP_INCLUDED

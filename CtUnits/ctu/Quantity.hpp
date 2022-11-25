@@ -6,6 +6,8 @@
 
 #include "UdMap.hpp"
 
+#include <cmath>
+
 namespace ctu
 {
 template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
@@ -104,6 +106,16 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
         return this->modify_value(
             [other_value = other.get_value()](auto& this_value)
             { this_value /= other_value; });
+    }
+
+    template <typename Power> auto pow() const
+    {
+        using result_unit_dims =
+            ctu::ud_operations::MultiplyUdMap<Power, UnitsDimensions>;
+        using result_type = Quantity<F, result_unit_dims>;
+        return result_type(static_cast<F>(std::pow(
+            this->get_value(),
+            static_cast<F>(Power::num) / static_cast<F>(Power::den))));
     }
 };
 } // namespace ctu
