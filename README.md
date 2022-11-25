@@ -10,5 +10,7 @@
 Compilte-time utilites for dealing with quantities with units.
 Example [`meters_and_inches.cpp`](./examples/meters_and_inches/meters_and_inches.cpp) illustrates the basic usage.
 
+The class [`Quantity`](./CtUnits/ctu/Quantity.hpp) allows to represent values with _arbitrary_ long list of units in rational powers.
+
 [`CtUnits`](./CtUnits/) heavily relies on [Boost.Mp11](https://www.boost.org/doc/libs/master/libs/mp11/doc/html/mp11.html).
-The [`tests`](./tests/) require Boost.Test.
+The [`tests`](./tests/) require [Boost.Test](https://github.com/boostorg/test).
