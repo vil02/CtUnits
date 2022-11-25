@@ -15,7 +15,6 @@ if(ENABLE_CPPCHECK)
       --addon=threadsafety
       --addon=y2038
       --addon=cert
-      --inconclusive
       --force
       --error-exitcode=1)
   else()
