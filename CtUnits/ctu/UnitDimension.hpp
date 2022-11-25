@@ -11,9 +11,11 @@ template <
 struct [[nodiscard]] UnitDimension
 {
     static_assert(DimNumerator != 0);
-    static_assert(DimDenominator != 0);
+    static_assert(DimDenominator > 0);
     using unit = Unit;
     using dimension = ctu::Dimension<DimNumerator, DimDenominator>;
+    static_assert(dimension::num == DimNumerator);
+    static_assert(dimension::den == DimDenominator);
 };
 } // namespace ctu
 #endif // UNITDIMENSION_HPP_INCLUDED
