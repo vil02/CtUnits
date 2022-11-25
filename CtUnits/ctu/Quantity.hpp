@@ -108,7 +108,7 @@ template <typename F, typename UnitsDimensions> class [[nodiscard]] Quantity
             { this_value /= other_value; });
     }
 
-    template <typename Power> auto pow() const
+    template <typename Power> [[nodiscard]] auto pow() const
     {
         using result_unit_dims =
             ctu::ud_operations::MultiplyUdMap<Power, UnitsDimensions>;
