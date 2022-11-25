@@ -6,6 +6,7 @@
 #include <boost/mp11.hpp>
 #include <boost/type_index/ctti_type_index.hpp>
 
+#include <ratio>
 #include <type_traits>
 
 namespace ctu::ud_operations
@@ -91,13 +92,27 @@ template <typename MpUnitsDimsA, typename MpUnitsDimsB> class UnitsDimsAdder
     static_assert(IsValidMpUnitsDims<result>::value);
 };
 
-template <typename MpUnitDimension>
-using MinusDim = ctu::tcu::UdPair<
-    GetUnit<MpUnitDimension>,
-    ::ctu::MinusDimension<GetDimType<MpUnitDimension>>>;
+template <typename Multiplier, typename MpUnitsDims> class MpUnitsDimsMultiplier
+{
+    using is_multiplier_zero = boost::mp11::mp_bool<Multiplier::num == 0>;
+
+    template <typename MpUnitDimension>
+    using multiply_unit_dim = ctu::tcu::UdPair<
+        GetUnit<MpUnitDimension>,
+        ctu::MultiplyDimensions<GetDimType<MpUnitDimension>, Multiplier>>;
+
+  public:
+    using result = boost::mp11::mp_if<
+        is_multiplier_zero, boost::mp11::mp_list<>,
+        boost::mp11::mp_transform<multiply_unit_dim, MpUnitsDims>>;
+};
+
+template <typename Multiplier, typename MpUnitsDims>
+using MultiplyDims =
+    typename MpUnitsDimsMultiplier<Multiplier, MpUnitsDims>::result;
 
 template <typename MpUnitsDims>
-using MinusDims = boost::mp11::mp_transform<MinusDim, MpUnitsDims>;
+using MinusDims = MultiplyDims<std::ratio<-1>, MpUnitsDims>;
 
 template <typename MpUnitsDimsA, typename MpUnitsDimsB>
 using AddMpUnitsDims =

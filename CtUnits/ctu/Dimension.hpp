@@ -16,9 +16,6 @@ using IsDimensionIsNotZero = std::ratio_not_equal<Dimension, ZeroDimension>;
 template <typename DimensionA, typename DimensionB>
 using AddDimensions = std::ratio_add<DimensionA, DimensionB>;
 
-template <typename Dimension>
-using MinusDimension = std::ratio_subtract<ZeroDimension, Dimension>;
-
 template <typename DimensionA, typename DimensionB>
 using MultiplyDimensions = std::ratio_multiply<DimensionA, DimensionB>;
 } // namespace ctu
