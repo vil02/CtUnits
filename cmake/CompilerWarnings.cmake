@@ -36,6 +36,7 @@ function(set_project_warnings project_name)
       /external:anglebrackets
       /external:W0
       /external:templates-
+      /analyze:external-
   )
 
   set(CLANG_WARNINGS
