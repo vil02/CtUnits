@@ -34,7 +34,7 @@ function(set_project_warnings project_name)
               # conversion has been implicitly applied
       /permissive- # standards conformance mode for MSVC compiler.
       /external:anglebrackets
-      /external:W2
+      /external:W1
   )
 
   set(CLANG_WARNINGS
