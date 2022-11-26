@@ -1,0 +1,62 @@
+---
+name: macos_build
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '15 2 * * 4'
+
+env:
+  build_path: ${{github.workspace}}/build
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++-11, clang++]
+        os: [macos-11]
+        build_type: [Release, Debug]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Boost
+        run: |
+          brew install boost
+
+      - name: Display versions
+        run: |
+          ${{matrix.compiler}} --version
+          cmake --version
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{env.build_path}}
+
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{env.build_path}}
+        run: >
+          cmake ../
+          -D CMAKE_BUILD_TYPE=${{matrix.build_type}}
+          -D CMAKE_CXX_COMPILER=${{matrix.compiler}}
+          -D ENABLE_BOOST_TESTS=ON
+
+      - name: Build with ${{matrix.compiler}}
+        working-directory: ${{env.build_path}}
+        shell: bash
+        run: |
+          cmake --build . --config ${{matrix.build_type}}
+
+      - name: Test
+        working-directory: ${{env.build_path}}
+        shell: bash
+        run: ctest -C ${{matrix.build_type}}
+...
