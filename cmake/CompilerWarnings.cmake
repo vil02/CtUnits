@@ -35,6 +35,7 @@ function(set_project_warnings project_name)
       /permissive- # standards conformance mode for MSVC compiler.
       /external:anglebrackets
       /external:W0
+      /external:templates-
   )
 
   set(CLANG_WARNINGS
