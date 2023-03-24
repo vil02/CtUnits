@@ -33,6 +33,16 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
+
+      - name: Install boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install libboost-all-dev
+
+      - name: Display boost version
+        run: |
+          dpkg -s libboost-dev | grep Version
+
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
 
