@@ -34,7 +34,7 @@ function(set_project_warnings project_name)
               # conversion has been implicitly applied
       /permissive- # standards conformance mode for MSVC compiler.
       /external:anglebrackets
-      /external:I ${Boost_INCLUDE_DIRS}
+      /external:env:INCLUDE
       /external:W0
   )
 
