@@ -2,6 +2,14 @@
 image:
   file: .gitpod.dockerfile
 
+tasks:
+  - init: |
+      mkdir build
+      cd build
+      cmake -S .. -B .
+      cmake --build .
+      ctest
+
 github:
   prebuilds:
     addComment: true
