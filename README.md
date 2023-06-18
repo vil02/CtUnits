@@ -14,3 +14,5 @@ The class [`Quantity`](./CtUnits/ctu/Quantity.hpp) allows to represent values wi
 
 [`CtUnits`](./CtUnits/) heavily relies on [Boost.Mp11](https://www.boost.org/doc/libs/master/libs/mp11/doc/html/mp11.html).
 The [`tests`](./tests/) require [Boost.Test](https://github.com/boostorg/test).
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/vil02/CtUnits)
