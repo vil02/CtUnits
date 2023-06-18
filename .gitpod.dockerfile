@@ -7,6 +7,8 @@ RUN apt-get update \
   cmake \
   libboost-all-dev \
   cppcheck \
-  clang-tidy
+  clang-tidy \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 USER guest
