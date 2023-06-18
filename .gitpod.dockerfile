@@ -1,8 +1,12 @@
-FROM gitpod/workspace-base
+FROM gitpod/workspace-base:2023-04-18-03-19-46
 
-RUN sudo apt-get update \
-  && sudo apt-get install -y --no-install-recommends \
+USER root
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
   cmake \
   libboost-all-dev \
   cppcheck \
   clang-tidy
+
+USER guest
