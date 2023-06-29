@@ -36,10 +36,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install libboost-all-dev
 
-      - name: Install g++-11
-        run: |
-          sudo apt-get install g++-11
-
       - name: Set up Python ${{matrix.python-version}}
         uses: actions/setup-python@v4
         with:
