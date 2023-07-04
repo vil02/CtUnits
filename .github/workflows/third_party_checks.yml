@@ -69,7 +69,7 @@ jobs:
           sonar-scanner
           --define sonar.host.url="${{ env.SONAR_SERVER_URL }}"
           --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
-        # yamllint enable rule:line-length"
+        # yamllint enable rule:line-length
 
       - name: Copy the coverage report to the root
         run: cp ./coverage_reports/cobertura_coverage_report.xml .
