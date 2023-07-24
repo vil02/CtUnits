@@ -16,7 +16,7 @@ template <typename MpUnitDim> using GetUnit = boost::mp11::mp_first<MpUnitDim>;
 template <typename MpUnitDim>
 using GetDimType = boost::mp11::mp_second<MpUnitDim>;
 
-template <typename MpUnitDim> constexpr auto GetUnitId()
+template <typename MpUnitDim> constexpr auto get_unit_id()
 {
     return boost::typeindex::ctti_type_index::type_id_with_cvr<
         GetUnit<MpUnitDim>>();
@@ -24,8 +24,8 @@ template <typename MpUnitDim> constexpr auto GetUnitId()
 
 template <typename MpUnitDimA, typename MpUnitDimB> constexpr bool is_less()
 {
-    constexpr auto id_a = GetUnitId<MpUnitDimA>();
-    constexpr auto id_b = GetUnitId<MpUnitDimB>();
+    constexpr auto id_a = get_unit_id<MpUnitDimA>();
+    constexpr auto id_b = get_unit_id<MpUnitDimB>();
     static_assert(id_a != id_b);
     return id_a < id_b;
 }
