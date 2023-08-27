@@ -13,4 +13,8 @@ tasks:
 github:
   prebuilds:
     addComment: true
+
+vscode:
+  extensions:
+    - xaver.clang-format
 ...
