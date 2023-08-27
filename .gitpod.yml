@@ -5,10 +5,9 @@ image:
 tasks:
   - init: |
       mkdir build
-      cd build
-      cmake -S .. -B .
-      cmake --build .
-      ctest
+      cmake -S . -B build/
+      cmake --build build/
+      ctest --test-dir build/
 
 github:
   prebuilds:
