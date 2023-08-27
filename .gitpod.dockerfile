@@ -8,6 +8,7 @@ RUN apt-get update \
   libboost-all-dev=1.74.0.3ubuntu7 \
   cppcheck=2.7-1 \
   clang-tidy=1:14.0-55~exp2 \
+  clang-format=1:14.0-55~exp2 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
