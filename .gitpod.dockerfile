@@ -1,4 +1,4 @@
-FROM gitpod/workspace-base:2023-08-30-14-07-38
+FROM gitpod/workspace-base:2023-08-30-16-59-34
 
 USER root
 
