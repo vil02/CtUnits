@@ -61,6 +61,7 @@ jobs:
           ./run_gcovr_cobertura.sh
 
       - name: Run sonar-scanner
+        if: "! github.event.pull_request.head.repo.fork "
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -75,6 +76,7 @@ jobs:
         run: cp ./coverage_reports/cobertura_coverage_report.xml .
 
       - name: Upload coverage report to Codecov
+        if: "! github.event.pull_request.head.repo.fork "
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -82,7 +84,18 @@ jobs:
           verbose: true
           files: cobertura_coverage_report.xml
 
+      - name: Upload coverage report to Codecov (tokenless)
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name != github.repository
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          files: cobertura_coverage_report.xml
+
       - name: Upload coverage report to Codacy
+        if: "! github.event.pull_request.head.repo.fork "
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
