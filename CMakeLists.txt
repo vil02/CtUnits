@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(cpp_bf_machines CXX)
+project(CtUnits CXX)
 include(cmake/StandardProjectSettings.cmake)
 
 add_library(project_options INTERFACE)
