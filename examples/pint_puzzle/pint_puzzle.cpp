@@ -1,5 +1,5 @@
 /** @file
- * @brief this example shows how to find the side lenth of a cube with a volume
+ * @brief this example shows how to find the side length of a cube with a volume
  * of one imperial pint
  */
 
