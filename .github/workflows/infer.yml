@@ -1,0 +1,57 @@
+---
+name: infer
+
+'on':
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  build_path: ${{github.workspace}}/infer_build
+
+jobs:
+  infer:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [clang++, g++]
+        build_type: [Release, Debug]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install boost
+        uses: MarkusJx/install-boost@v2.4.5
+        id: install-boost
+        with:
+          boost_version: 1.85.0
+
+      - name: Install infer
+        uses: srz-zumix/setup-infer@main
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{env.build_path}}
+
+      - name: Configure CMake
+        working-directory: ${{env.build_path}}
+        env:
+          BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+        run: >
+          cmake ../
+          -D CMAKE_BUILD_TYPE=${{matrix.build_type}}
+          -D CMAKE_CXX_COMPILER=${{matrix.compiler}}
+          -D CMAKE_EXPORT_COMPILE_COMMANDS=1
+
+      - name: Run infer
+        working-directory: ${{env.build_path}}
+        run: >
+          infer
+          --fail-on-issue
+          --print-logs
+          --no-progress-bar
+          run --compilation-database compile_commands.json
+...
