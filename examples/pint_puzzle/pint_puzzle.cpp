@@ -6,9 +6,6 @@
 #include "../../CtUnits/CtUnits.hpp"
 #include <iostream>
 #include <ratio>
-#include <type_traits>
-
-#include <boost/type_index.hpp>
 
 struct Pint
 {
