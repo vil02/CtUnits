@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-double parse_input(int argc, char **argv)
+inline double parse_input(int argc, char **argv)
 {
     if (argc != 2)
     {
