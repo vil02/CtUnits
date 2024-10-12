@@ -19,25 +19,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-24.04]
         compiler:
-          - g++-10
-          - g++-11
-          - clang++-10
-          - clang++-12
-        exclude:
-          - os: ubuntu-22.04
-            compiler: clang++-10
+          - g++
+          - clang++
         build_type: [Release, Debug]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install ${{matrix.compiler}}
-        run: |
-          sudo apt-get update
-          sudo apt-get install ${{matrix.compiler}}
 
       - name: Display versions
         run: |
