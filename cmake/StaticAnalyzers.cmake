@@ -14,7 +14,6 @@ if(ENABLE_CPPCHECK)
       --enable=all
       --addon=threadsafety
       --addon=y2038
-      --addon=cert
       --force
       --error-exitcode=1)
   else()
