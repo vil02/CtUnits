@@ -17,10 +17,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04]
-        compiler: [clang++]
-        clang_tidy: [clang-tidy]
-        build_type: [Release, Debug]
+        os:
+          - ubuntu-24.04
+        compiler:
+          - clang++
+        clang_tidy:
+          - clang-tidy
+        build_type:
+          - Release
+          - Debug
 
     steps:
       - name: Checkout
