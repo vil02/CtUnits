@@ -17,8 +17,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [clang++, g++]
-        build_type: [Release, Debug]
+        compiler:
+          - g++
+          - clang++
+        build_type:
+          - Release
+          - Debug
 
     steps:
       - name: Checkout

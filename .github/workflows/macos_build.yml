@@ -19,9 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [g++, clang++]
-        os: [macos-14]
-        build_type: [Release, Debug]
+        os:
+          - macos-14
+        compiler:
+          - g++
+          - clang++
+        build_type:
+          - Release
+          - Debug
 
     steps:
       - name: Checkout
