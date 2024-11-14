@@ -11,7 +11,7 @@ name: third_party_checks
 jobs:
   third_party_checks:
     name: Build (sonarCloud)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory
@@ -38,11 +38,16 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install gcovr
-        shell: bash
+      - name: Create virtual environment
         run: |
-          python -m pip install --upgrade pip
-          sudo pip install git+https://github.com/gcovr/gcovr.git
+          python3 -m venv ./venv
+          source ./venv/bin/activate
+          echo "PATH=${PATH}" >> "${GITHUB_ENV}"
+
+      - name: Install gcovr
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install gcovr
 
       - name: Run build-wrapper
         run: |
