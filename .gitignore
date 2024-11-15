@@ -57,3 +57,4 @@ _deps
 /build/
 /build_data/
 /coverage_reports/
+/venv/
