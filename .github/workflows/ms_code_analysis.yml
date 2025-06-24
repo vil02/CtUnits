@@ -45,6 +45,7 @@ jobs:
         # yamllint enable rule:line-length
         id: run-analysis
         with:
+          buildConfiguration: Debug
           cmakeBuildDirectory: ${{ env.build }}
           ruleset: NativeRecommendedRules.ruleset
 
