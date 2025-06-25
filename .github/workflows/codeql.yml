@@ -11,18 +11,13 @@ name: CodeQL
     - cron: '41 4 * * 4'
 
 jobs:
-  analyze:
-    name: Analyze
+  analyzeCpp:
+    name: AnalyzeCpp
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
       security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['cpp']
 
     steps:
       - name: Checkout repository
@@ -31,7 +26,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
+          languages: cpp
           queries: +security-extended,security-and-quality
 
       - name: Install boost
@@ -49,5 +44,28 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{matrix.language}}"
+          category: "/language:cpp"
+
+  analyzeActions:
+    name: AnalyzeActions
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: actions
+          queries: +security-extended,security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:actions"
 ...
