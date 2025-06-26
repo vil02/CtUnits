@@ -8,6 +8,9 @@ name: cmakelint
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   run_cmakelint:
     runs-on: ubuntu-latest

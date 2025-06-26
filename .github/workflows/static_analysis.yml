@@ -8,6 +8,9 @@ name: static_analysis
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 env:
   build_path: ${{github.workspace}}/build
 

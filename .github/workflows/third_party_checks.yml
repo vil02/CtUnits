@@ -8,6 +8,9 @@ name: third_party_checks
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   third_party_checks:
     name: Build (sonarCloud)
