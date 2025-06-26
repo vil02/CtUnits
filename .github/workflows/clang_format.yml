@@ -8,6 +8,9 @@ name: clang_format
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   clang-format-check:
     name: run clang-format

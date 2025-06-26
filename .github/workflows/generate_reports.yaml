@@ -6,6 +6,9 @@ name: generate_reports
   schedule:
     - cron: '7 9 1 * *'
 
+permissions:
+  contents: read
+
 env:
   scripts_path: ${{github.workspace}}/scripts
   gxx: g++

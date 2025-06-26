@@ -8,6 +8,9 @@ name: infer
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 env:
   build_path: ${{github.workspace}}/infer_build
 

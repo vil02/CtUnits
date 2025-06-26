@@ -9,6 +9,9 @@ name: windows_build
   schedule:
     - cron: '15 1 * * 4'
 
+permissions:
+  contents: read
+
 env:
   build_path: ${{github.workspace}}\build
 

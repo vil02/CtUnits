@@ -10,6 +10,9 @@ name: macos_build
   schedule:
     - cron: '15 2 * * 4'
 
+permissions:
+  contents: read
+
 env:
   build_path: ${{github.workspace}}/build
 
