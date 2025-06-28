@@ -29,16 +29,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install boost
-        uses: MarkusJx/install-boost@v2.5.0
+        uses: MarkusJx/install-boost@b1f0ee8b87cf60236b72440c72d0085d002770c5 # v2.5.0
         id: install-boost
         with:
           boost_version: 1.85.0
 
       - name: Install infer
-        uses: srz-zumix/setup-infer@main
+        uses: srz-zumix/setup-infer@530856effeae228d1f3c8251c91ea8348d9480ee # v1.1.1
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{env.build_path}}
