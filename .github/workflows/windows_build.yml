@@ -7,7 +7,7 @@ name: windows_build
       - master
   pull_request:
   schedule:
-    - cron: '15 1 * * 4'
+    - cron: '15 2 6 * *'
 
 permissions:
   contents: read

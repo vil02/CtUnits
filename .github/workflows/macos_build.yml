@@ -8,7 +8,7 @@ name: macos_build
       - master
   pull_request:
   schedule:
-    - cron: '15 2 * * 4'
+    - cron: '15 2 3 * *'
 
 permissions:
   contents: read

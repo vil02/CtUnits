@@ -8,7 +8,7 @@ name: Microsoft C++ Code Analysis
       - master
   pull_request:
   schedule:
-    - cron: '27 13 * * 1'
+    - cron: '15 2 4,19 * *'
 
 env:
   build: '${{ github.workspace }}/build'
