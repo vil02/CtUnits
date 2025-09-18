@@ -16,7 +16,6 @@ jobs:
     name: Build (sonarCloud)
     runs-on: ubuntu-24.04
     env:
-      SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory
     steps:
       - name: Checkout
@@ -75,8 +74,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            --define sonar.host.url="${{ env.SONAR_SERVER_URL }}"
-            --define sonar.cfamily.compile-commands="${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"
+            "-Dsonar.cfamily.compile-commands=${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"
 
       - name: Copy the coverage report to the root
         run: cp ./coverage_reports/cobertura_coverage_report.xml .
