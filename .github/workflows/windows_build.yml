@@ -32,10 +32,12 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Install boost
-        uses: MarkusJx/install-boost@b1f0ee8b87cf60236b72440c72d0085d002770c5 # v2.5.0
+        uses: MarkusJx/install-boost@6d8df42f57de83c5b326b5b83e7b35d650030103
         id: install-boost
         with:
-          boost_version: 1.81.0
+          boost_version: 1.87.0
+          platform_version: 2022
+          toolset: msvc
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{env.build_path}}
